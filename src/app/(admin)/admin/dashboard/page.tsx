@@ -51,7 +51,7 @@ export default function AdminDashboardPage() {
       
       {stats ? (
         <Grid container spacing={3} sx={{ mt: 1 }}>
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <StatCard 
               title="إجمالي المهندسين" 
               value={stats.totalEngineers} 
@@ -59,7 +59,7 @@ export default function AdminDashboardPage() {
               color="primary" 
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <StatCard 
               title="إجمالي الشركات" 
               value={stats.totalCompanies} 
@@ -67,7 +67,7 @@ export default function AdminDashboardPage() {
               color="secondary" 
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <StatCard 
               title="إجمالي الزيارات" 
               value={stats.totalVisits} 
