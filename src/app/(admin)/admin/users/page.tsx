@@ -22,7 +22,7 @@ export default function AdminUsersPage() {
 
   return (
     <div>
-      <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
+      <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
         إدارة المستخدمين
       </Typography>
       <Card sx={{ mt: 3 }}>

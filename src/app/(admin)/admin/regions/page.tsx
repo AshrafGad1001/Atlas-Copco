@@ -22,7 +22,7 @@ export default function AdminRegionsPage() {
 
   return (
     <div>
-      <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
+      <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
         إدارة المناطق
       </Typography>
       <Card sx={{ mt: 3 }}>

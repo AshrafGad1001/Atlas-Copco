@@ -1,15 +1,16 @@
+'use client';
 import React from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { LANDING_CONTENT } from '@/constants/landing';
 
 export default function Steps() {
   return (
     <Box sx={{ py: 8, bgcolor: 'common.white' }}>
       <Container maxWidth="md">
-        <Typography variant="h4" component="h2" align="center" fontWeight={700} gutterBottom sx={{ mb: 6 }}>
+        <Typography variant="h4" component="h2" align="center" gutterBottom sx={{ fontWeight: 700, mb: 6 }}>
           كيف يعمل النظام؟
         </Typography>
         <Grid container spacing={4}>
@@ -32,7 +33,7 @@ export default function Steps() {
                 }}>
                   {index + 1}
                 </Box>
-                <Typography variant="h6" fontWeight={600} gutterBottom>
+                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
                   {step.title}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">

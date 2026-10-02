@@ -66,7 +66,7 @@ export default function LoginPage() {
       <Card sx={{ maxWidth: 400, width: '100%' }}>
         <CardContent sx={{ p: 4 }}>
           <Box sx={{ textAlign: 'center', mb: 4 }}>
-            <Typography variant="h5" component="h1" fontWeight={700} color="primary.main" gutterBottom>
+            <Typography variant="h5" component="h1" sx={{ fontWeight: 700 }} color="primary.main" gutterBottom>
               تسجيل الدخول
             </Typography>
             <Typography variant="body2" color="text.secondary">
@@ -89,7 +89,7 @@ export default function LoginPage() {
               {...register('username')}
               error={!!errors.username}
               helperText={errors.username?.message}
-              InputLabelProps={{ shrink: true }}
+              slotProps={{ inputLabel: { shrink: true } }}
             />
 
             <TextField
@@ -101,19 +101,21 @@ export default function LoginPage() {
               {...register('password')}
               error={!!errors.password}
               helperText={errors.password?.message}
-              InputLabelProps={{ shrink: true }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => setShowPassword(!showPassword)}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                )
+              slotProps={{
+                inputLabel: { shrink: true },
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => setShowPassword(!showPassword)}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }
               }}
             />
 

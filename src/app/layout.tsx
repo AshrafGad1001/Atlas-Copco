@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
 import { Cairo } from 'next/font/google';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import EmotionCache from '@/lib/EmotionCache';
-import theme from '@/lib/theme';
+import AppThemeProvider from '@/components/common/AppThemeProvider';
 import { AuthProvider } from '@/components/common/AuthProvider';
 import './globals.css';
 
@@ -27,12 +25,11 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" className={cairo.variable}>
       <body>
         <EmotionCache>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
+          <AppThemeProvider>
             <AuthProvider>
               {children}
             </AuthProvider>
-          </ThemeProvider>
+          </AppThemeProvider>
         </EmotionCache>
       </body>
     </html>

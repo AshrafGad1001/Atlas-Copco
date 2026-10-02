@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -17,7 +18,7 @@ export default function Hero() {
       }}
     >
       <Container maxWidth="md">
-        <Typography variant="h3" component="h1" fontWeight={700} gutterBottom sx={{ fontSize: { xs: '2rem', md: '3rem' } }}>
+        <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 700, fontSize: { xs: '2rem', md: '3rem' } }}>
           {LANDING_CONTENT.hero.title}
         </Typography>
         <Typography variant="h6" component="p" sx={{ mb: 4, opacity: 0.9, fontSize: { xs: '1.1rem', md: '1.25rem' } }}>

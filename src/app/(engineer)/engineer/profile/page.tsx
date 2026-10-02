@@ -35,7 +35,7 @@ export default function EngineerProfilePage() {
 
   return (
     <div>
-      <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
+      <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
         الملف الشخصي
       </Typography>
       <Card sx={{ mt: 3, maxWidth: 600 }}>

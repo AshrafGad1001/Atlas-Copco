@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent';
 export default function AdminDashboardPage() {
   return (
     <div>
-      <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
+      <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
         لوحة التحكم
       </Typography>
       <Card sx={{ mt: 3 }}>

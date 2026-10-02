@@ -8,8 +8,8 @@ import Link from 'next/link';
 import { APP_NAME } from '@/constants/app';
 import { cookies } from 'next/headers';
 
-export default function Navbar() {
-  const cookieStore = cookies();
+export default async function Navbar() {
+  const cookieStore = await cookies();
   const hasToken = cookieStore.has('token');
 
   return (
