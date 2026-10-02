@@ -10,23 +10,51 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
 import Chip from '@mui/material/Chip';
-import { fetchApi } from '@/lib/api';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import DownloadIcon from '@mui/icons-material/Download';
+import { fetchApi, API_BASE_URL } from '@/lib/api';
 
 export default function EngineerVisitsPage() {
   const [visits, setVisits] = useState<any[]>([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     fetchApi('/visits').then(res => setVisits(res.data)).catch(console.error);
   }, []);
 
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const handleExport = () => {
+    window.open(`${API_BASE_URL}/reports/export-visits`, '_blank');
+  };
+
   return (
     <div>
-      <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
-        زياراتي
-      </Typography>
-      <Card sx={{ mt: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+        <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold' }}>
+          زياراتي
+        </Typography>
+        <Button 
+          variant="outlined" 
+          startIcon={<DownloadIcon />}
+          onClick={handleExport}
+        >
+          تصدير Excel
+        </Button>
+      </Box>
+      <Card>
         <CardContent>
           <TableContainer component={Paper} elevation={0} variant="outlined">
             <Table>
@@ -40,7 +68,7 @@ export default function EngineerVisitsPage() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {visits.map((row) => (
+                {visits.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                   <TableRow key={row._id}>
                     <TableCell>{new Date(row.visitDate).toLocaleDateString('ar-EG')}</TableCell>
                     <TableCell>{row.company?.name}</TableCell>
@@ -63,6 +91,16 @@ export default function EngineerVisitsPage() {
               </TableBody>
             </Table>
           </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={visits.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            labelRowsPerPage="الزيارات في الصفحة:"
+          />
         </CardContent>
       </Card>
     </div>
