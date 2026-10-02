@@ -4,6 +4,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import EmotionCache from '@/lib/EmotionCache';
 import theme from '@/lib/theme';
+import { AuthProvider } from '@/components/common/AuthProvider';
 import './globals.css';
 
 const cairo = Cairo({ 
@@ -28,7 +29,9 @@ export default function RootLayout({
         <EmotionCache>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            {children}
+            <AuthProvider>
+              {children}
+            </AuthProvider>
           </ThemeProvider>
         </EmotionCache>
       </body>
