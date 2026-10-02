@@ -1,34 +1,36 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import MUIThemeProvider from "../lib/ThemeProvider";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Cairo } from 'next/font/google';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import EmotionCache from '@/lib/EmotionCache';
+import theme from '@/lib/theme';
+import './globals.css';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const cairo = Cairo({ 
+  subsets: ['latin', 'arabic'],
+  variable: '--font-cairo',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: "Atlas-Copco App",
-  description: "Atlas-Copco Full-Stack Web Application",
+  title: 'متابعة الزيارات | أطلس كوبكو',
+  description: 'نظام إدارة وتتبع زيارات مهندسي المبيعات في أطلس كوبكو',
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="ar" dir="rtl" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="ar" dir="rtl" className={cairo.variable}>
       <body>
-        <MUIThemeProvider>
-          {children}
-        </MUIThemeProvider>
+        <EmotionCache>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            {children}
+          </ThemeProvider>
+        </EmotionCache>
       </body>
     </html>
   );
