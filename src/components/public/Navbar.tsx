@@ -19,14 +19,14 @@ export default async function Navbar() {
           <Typography variant="h6" component="div" sx={{ fontWeight: 700, color: 'primary.main' }}>
             {APP_NAME}
           </Typography>
-          <Button
-            component={Link}
-            href={hasToken ? '/login' : '/login'}
-            variant="contained"
-            color="primary"
-          >
-            {hasToken ? 'دخول للنظام' : 'تسجيل الدخول'}
-          </Button>
+          <Link href={hasToken ? '/login' : '/login'} passHref>
+            <Button
+              variant="contained"
+              color="primary"
+            >
+              {hasToken ? 'دخول للنظام' : 'تسجيل الدخول'}
+            </Button>
+          </Link>
         </Toolbar>
       </Container>
     </AppBar>
