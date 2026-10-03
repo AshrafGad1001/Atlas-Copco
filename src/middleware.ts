@@ -19,10 +19,7 @@ export async function middleware(request: NextRequest) {
 
   // If there is a token, try to parse it
   try {
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'secret');
-    
-    // In edge runtime, we use jose instead of jsonwebtoken
-    const { payload } = await jose.jwtVerify(token, secret);
+    const payload = jose.decodeJwt(token);
     
     const role = payload.role as string;
 
