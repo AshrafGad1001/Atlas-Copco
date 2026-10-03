@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { fetchApi } from '@/lib/api';
 
 type User = {
@@ -27,6 +28,7 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
   const router = useRouter();
   const router = useRouter();
 
