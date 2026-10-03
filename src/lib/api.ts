@@ -17,7 +17,7 @@ export const fetchApi = async (endpoint: string, options: RequestInit = {}) => {
   const data = await response.json().catch(() => null);
 
   if (!response.ok) {
-    const error: any = new Error(data?.message || "O-O_O OOOOO- OOO_U.U^U,O1");
+    const error: any = new Error(data?.message || 'حدث خطأ غير متوقع');
     error.status = response.status;
     throw error;
   }

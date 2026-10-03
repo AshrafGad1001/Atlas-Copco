@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (error: any) {
       setUser(null);
-      if (error?.message?.includes("401") || (error.status === 401) || error?.message?.includes("OUSO U.OOO-")) {
+      if (error?.status === 401) {
         await fetchApi("/auth/logout", { method: "POST" }).catch(() => {});
         if (typeof window !== "undefined" && window.location.pathname !== "/login") {
           router.replace("/login?session=expired");
