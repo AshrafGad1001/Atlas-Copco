@@ -1,6 +1,5 @@
 'use client';
 
-import { clearAuthCookie } from "@/app/actions";
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { fetchApi } from '@/lib/api';
 
@@ -41,7 +40,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (error?.message?.includes('401') || (error.status === 401) || error?.message?.includes('غير مصرح')) {
         await fetchApi('/auth/logout', { method: 'POST' }).catch(() => {});
         if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
-          await clearAuthCookie();
+          await fetch("/api/logout", { method: "POST" }).catch(() => {});
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=localhost;";
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=127.0.0.1;";
           window.location.replace('/login');
         }
       }
