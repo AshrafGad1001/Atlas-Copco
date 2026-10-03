@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
@@ -16,6 +17,7 @@ import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import Skeleton from '@mui/material/Skeleton';
 import { useAuth } from '@/components/common/AuthProvider';
 import Link from 'next/link';
 
@@ -23,7 +25,30 @@ const drawerWidth = 240;
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        router.replace('/login');
+      } else if (user.role !== 'admin') {
+        router.replace('/engineer/profile');
+      }
+    }
+  }, [user, loading, router]);
+
+  if (loading || !user || user.role !== 'admin') {
+    return (
+      <Box sx={{ display: 'flex', p: 3 }}>
+        <Skeleton variant="rectangular" width={240} height="100vh" sx={{ mr: 3, display: { xs: 'none', sm: 'block' } }} />
+        <Box sx={{ flexGrow: 1 }}>
+          <Skeleton variant="text" height={60} sx={{ mb: 2 }} />
+          <Skeleton variant="rectangular" height={200} />
+        </Box>
+      </Box>
+    );
+  }
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -33,7 +58,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div>
       <Toolbar>
         <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-          أطلس الإدارة
+          أطلس كوبكو
         </Typography>
       </Toolbar>
       <List>
@@ -67,7 +92,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            مرحباً بك، {user?.fullName || 'مدير النظام'}
+            مرحباً بك، {user.fullName}
           </Typography>
         </Toolbar>
       </AppBar>

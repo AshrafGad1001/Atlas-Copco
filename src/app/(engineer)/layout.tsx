@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
@@ -17,6 +18,7 @@ import MapIcon from '@mui/icons-material/Map';
 import HistoryIcon from '@mui/icons-material/History';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import PersonIcon from '@mui/icons-material/Person';
+import Skeleton from '@mui/material/Skeleton';
 import { useAuth } from '@/components/common/AuthProvider';
 import Link from 'next/link';
 
@@ -24,7 +26,30 @@ const drawerWidth = 240;
 
 export default function EngineerLayout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        router.replace('/login');
+      } else if (user.role !== 'engineer') {
+        router.replace('/admin/dashboard');
+      }
+    }
+  }, [user, loading, router]);
+
+  if (loading || !user || user.role !== 'engineer') {
+    return (
+      <Box sx={{ display: 'flex', p: 3 }}>
+        <Skeleton variant="rectangular" width={240} height="100vh" sx={{ mr: 3, display: { xs: 'none', sm: 'block' } }} />
+        <Box sx={{ flexGrow: 1 }}>
+          <Skeleton variant="text" height={60} sx={{ mb: 2 }} />
+          <Skeleton variant="rectangular" height={200} />
+        </Box>
+      </Box>
+    );
+  }
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -34,26 +59,20 @@ export default function EngineerLayout({ children }: { children: React.ReactNode
     <div>
       <Toolbar>
         <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-          أطلس المهندسين
+          أطلس كوبكو
         </Typography>
       </Toolbar>
       <List>
         <ListItem disablePadding>
-          <ListItemButton component={Link} href="/engineer/visits/new">
-            <ListItemIcon><MapIcon /></ListItemIcon>
-            <ListItemText primary="تسجيل زيارة" />
+          <ListItemButton component={Link} href="/engineer/profile">
+            <ListItemIcon><PersonIcon /></ListItemIcon>
+            <ListItemText primary="الملف الشخصي" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton component={Link} href="/engineer/visits">
-            <ListItemIcon><HistoryIcon /></ListItemIcon>
-            <ListItemText primary="زياراتي" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton component={Link} href="/engineer/profile">
-            <ListItemIcon><PersonIcon /></ListItemIcon>
-            <ListItemText primary="الملف الشخصي" />
+            <ListItemIcon><MapIcon /></ListItemIcon>
+            <ListItemText primary="الزيارات والشركات" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
@@ -74,7 +93,7 @@ export default function EngineerLayout({ children }: { children: React.ReactNode
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            مرحباً بك، {user?.fullName || 'مهندس'}
+            مرحباً بك، {user.fullName}
           </Typography>
         </Toolbar>
       </AppBar>
