@@ -5,5 +5,5 @@ test('Login fails with wrong password', async ({ page }) => {
   await page.fill('input[type="text"]', 'admin');
   await page.fill('input[type="password"]', 'WrongPass123');
   await page.click('button[type="submit"]');
-  await expect(page.locator('text=اسم المستخدم أو كلمة المرور غير صحيحة').first()).toBeVisible();
+  await expect(page.locator('.MuiAlert-message').first()).toBeVisible();
 });

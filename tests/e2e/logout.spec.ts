@@ -9,7 +9,7 @@ test('Logout successfully', async ({ page }) => {
   await expect(page).toHaveURL(/\/engineer\/profile/);
   
   // Logout
-  await page.locator('text=تسجيل الخروج').first().click();
+  await page.locator('button:has-text("????? ??????"), button:has-text("Logout"), svg[data-testid="LogoutIcon"]').first().click();
   await expect(page).toHaveURL(/\/login/);
   // Ensure we can't go back
   await page.goto('/engineer/profile');

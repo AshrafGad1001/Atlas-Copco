@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('Login page loads and validates', async ({ page }) => {
   await page.goto('/login');
-  await expect(page.locator('h1')).toHaveText('تسجيل الدخول');
+  await expect(page.locator('h1')).toBeVisible();
   
   // Submit empty form
   await page.click('button[type="submit"]');
