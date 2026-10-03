@@ -182,7 +182,7 @@ export default function VisitForm({ initialData, onSubmit, submitText }: VisitFo
         {attendees.map((attendee, index) => (
           <Box key={index} sx={{ display: 'flex', gap: 2, alignItems: 'flex-start', mb: 2 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={4}>
+              <Grid size={{ xs: 12, sm: 4 }}>
                 <Autocomplete
                   freeSolo
                   options={suggestions}
@@ -195,7 +195,7 @@ export default function VisitForm({ initialData, onSubmit, submitText }: VisitFo
                   )}
                 />
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid size={{ xs: 12, sm: 4 }}>
                 <TextField
                   fullWidth
                   label="المسمى الوظيفي"
@@ -204,7 +204,7 @@ export default function VisitForm({ initialData, onSubmit, submitText }: VisitFo
                   onChange={(e) => handleAttendeeChange(index, 'jobTitle', e.target.value)}
                 />
               </Grid>
-              <Grid item xs={12} sm={4}>
+              <Grid size={{ xs: 12, sm: 4 }}>
                 <TextField
                   fullWidth
                   label="الموبايل"
