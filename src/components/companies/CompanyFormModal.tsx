@@ -82,7 +82,7 @@ export default function CompanyFormModal({ open, onClose, onSuccess, initialData
       onSuccess();
       onClose();
     } catch (err: any) {
-      if (err.status === 409 && err.message === "\u0634\u0631\u0643\u0629 \u0645\u0634\u0627\u0628\u0647\u0629 \u0645\u0648\u062c\u0648\u062f\u0629") {
+              if (err.status === 409 && err.message.includes("\u0645\u0634\u0627\u0628\u0647\u0629")) {
         setSimilarConfirm({ show: true, payload: data, similarName: "" }); 
       } else {
         setSubmitError(err.message || "\u062d\u062f\u062b \u062e\u0637\u0623");
