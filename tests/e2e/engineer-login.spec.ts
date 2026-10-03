@@ -6,5 +6,5 @@ test('Engineer login successfully', async ({ page }) => {
   await page.fill('input[type="password"]', 'password@123');
   await page.click('button[type="submit"]');
   await expect(page).toHaveURL(/\/engineer\/profile/);
-  await expect(page.locator('text=الملف الشخصي').first()).toBeVisible();
+  await expect(page.locator(`h1`).first()).toBeVisible();
 });

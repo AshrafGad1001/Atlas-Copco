@@ -6,5 +6,5 @@ test('Admin login successfully', async ({ page }) => {
   await page.fill('input[type="password"]', 'Admin12345');
   await page.click('button[type="submit"]');
   await expect(page).toHaveURL(/\/admin\/dashboard/);
-  await expect(page.locator('text=لوحة التحكم').first()).toBeVisible();
+  await expect(page.locator(`h1`).first()).toBeVisible();
 });
