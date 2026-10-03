@@ -1,6 +1,8 @@
 
+export const API_BASE_URL = "/api";
+
 export const fetchApi = async (endpoint: string, options: RequestInit = {}) => {
-  const url = `/api${endpoint}`;
+  const url = `${API_BASE_URL}${endpoint}`;
   
   const headers = new Headers(options.headers);
   if (!headers.has("Content-Type") && !(options.body instanceof FormData)) {
@@ -16,7 +18,7 @@ export const fetchApi = async (endpoint: string, options: RequestInit = {}) => {
   const data = await response.json().catch(() => null);
 
   if (!response.ok) {
-    const error: any = new Error(data?.message || "??? ??? ??? ?????");
+    const error: any = new Error(data?.message || "O-O_O OOOOO- OOO_U.U^U,O1");
     error.status = response.status;
     throw error;
   }
