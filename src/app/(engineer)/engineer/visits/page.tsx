@@ -44,7 +44,7 @@ export default function EngineerVisitsPage() {
     <div>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold' }}>
-          زياراتي
+          سجل الزيارات
         </Typography>
         <Button 
           variant="outlined" 
@@ -63,6 +63,7 @@ export default function EngineerVisitsPage() {
                   <TableCell>التاريخ</TableCell>
                   <TableCell>الشركة</TableCell>
                   <TableCell>المنطقة</TableCell>
+                  <TableCell>الحاضرون</TableCell>
                   <TableCell>الحالة</TableCell>
                   <TableCell>ملاحظات</TableCell>
                 </TableRow>
@@ -73,6 +74,11 @@ export default function EngineerVisitsPage() {
                     <TableCell>{new Date(row.visitDate).toLocaleDateString('ar-EG')}</TableCell>
                     <TableCell>{row.company?.name}</TableCell>
                     <TableCell>{row.company?.region?.name || 'غير محدد'}</TableCell>
+                    <TableCell>
+                      {(!row.attendees || row.attendees.length === 0) ? '—' : 
+                        `${row.attendees[0].name} ${row.attendees.length > 1 ? `(+${row.attendees.length - 1})` : ''}`
+                      }
+                    </TableCell>
                     <TableCell>
                       <Chip 
                         label={row.status === 'completed' ? 'مكتملة' : row.status === 'planned' ? 'مخطط لها' : 'ملغاة'} 
@@ -85,7 +91,7 @@ export default function EngineerVisitsPage() {
                 ))}
                 {visits.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={5} align="center">لا توجد زيارات</TableCell>
+                    <TableCell colSpan={6} align="center">لا يوجد زيارات</TableCell>
                   </TableRow>
                 )}
               </TableBody>
