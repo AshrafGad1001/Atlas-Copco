@@ -35,8 +35,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       } else {
         setUser(null);
       }
-    } catch (error) {
+    } catch (error: any) {
       setUser(null);
+      if (error?.message?.includes('401') || (error.status === 401) || error?.message?.includes('غير مصرح')) {
+        await fetchApi('/auth/logout', { method: 'POST' }).catch(() => {});
+        if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+          window.location.replace('/login');
+        }
+      }
     } finally {
       setLoading(false);
     }
