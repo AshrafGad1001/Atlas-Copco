@@ -236,11 +236,11 @@ export default function AdminCompaniesPage() {
         <DialogActions>
           <Button onClick={() => { setImportModalOpen(false); setImportPreview(null); setImportFile(null); }}>\u0625\u0644\u063a\u0627\u0621</Button>
           {!importPreview ? (
-            <Button onClick={() => handleImport(true)} variant="contained" disabled={!importFile || importing}>
+            <Button onClick={() => handleImport(true)} variant="contained" disabled={!importFile || importing} data-testid="import-preview-btn">
               \u0645\u0639\u0627\u064a\u0646\u0629
             </Button>
           ) : (
-            <Button onClick={() => handleImport(false)} variant="contained" color="primary" disabled={!importFile || importing}>
+            <Button onClick={() => handleImport(false)} variant="contained" color="primary" disabled={!importFile || importing} data-testid="import-confirm-btn">
               \u062a\u0623\u0643\u064a\u062f
             </Button>
           )}

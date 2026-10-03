@@ -5,7 +5,7 @@ const exceljs = require("exceljs");
 test.describe("Companies Module E2E", () => {
   test("E1) Engineer searches with Arabic variation without hamza", async ({ page }) => {
     await page.goto("/login");
-    await page.fill("input[type=\"text\"]", "ashraf123");
+    await page.fill("input[type=\"text\"]", "visitEng");
     await page.fill("input[type=\"password\"]", "password@123");
     await page.click("button[type=\"submit\"]");
     await expect(page).toHaveURL(/\/engineer\/profile/);
@@ -29,7 +29,7 @@ test.describe("Companies Module E2E", () => {
 
   test("E2) Engineer adds similar company, accepts dialog, then tries duplicate and rejected", async ({ page }) => {
     await page.goto("/login");
-    await page.fill("input[type=\"text\"]", "ashraf123");
+    await page.fill("input[type=\"text\"]", "visitEng");
     await page.fill("input[type=\"password\"]", "password@123");
     await page.click("button[type=\"submit\"]");
     await expect(page).toHaveURL(/\/engineer\/profile/);
@@ -91,7 +91,7 @@ test.describe("Companies Module E2E", () => {
     });
     
     // Click preview
-    await page.getByRole("dialog").locator("button", { hasText: "\u0645\u0639\u0627\u064a\u0646\u0629" }).click();
+    await page.getByTestId("import-preview-btn").click();
     
     // Wait for preview
     await expect(page.getByTestId("import-preview")).toBeVisible();
@@ -104,7 +104,7 @@ test.describe("Companies Module E2E", () => {
     });
 
     // Click confirm
-    await page.getByRole("dialog").locator("button", { hasText: "\u062a\u0623\u0643\u064a\u062f" }).click();
+    await page.getByTestId("import-confirm-btn").click();
 
     // Wait for modal to close
     await expect(page.getByRole("dialog")).not.toBeVisible();

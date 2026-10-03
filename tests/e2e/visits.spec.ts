@@ -10,7 +10,7 @@ test.describe('Visits and Regions Isolation', () => {
     
     // 1. eng1 logs in
     await page1.goto('http://localhost:3000/login');
-    await page1.fill('input[type="text"]', 'ashraf123');
+    await page1.fill('input[type="text"]', 'visitEng');
     await page1.fill('input[type="password"]', 'password@123');
     await page1.click('button[type="submit"]');
     await expect(page1).toHaveURL(/\/engineer\/profile/);
