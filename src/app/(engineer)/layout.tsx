@@ -32,7 +32,7 @@ export default function EngineerLayout({ children }: { children: React.ReactNode
   useEffect(() => {
     if (!loading) {
       if (!user) {
-        router.replace('/login');
+        // Handled by AuthProvider
       } else if (user.role !== 'engineer') {
         router.replace('/admin/dashboard');
       }

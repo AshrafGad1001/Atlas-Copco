@@ -31,7 +31,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   useEffect(() => {
     if (!loading) {
       if (!user) {
-        router.replace('/login');
+        // Handled by AuthProvider
       } else if (user.role !== 'admin') {
         router.replace('/engineer/profile');
       }
