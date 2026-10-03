@@ -1,139 +1,125 @@
-'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Alert from '@mui/material/Alert';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { fetchApi } from '@/lib/api';
-import { useAuth } from '@/components/common/AuthProvider';
+"use client";
 
-const loginSchema = z.object({
-  username: z.string().min(1, 'اسم المستخدم مطلوب'),
-  password: z.string().min(1, 'كلمة المرور مطلوبة'),
-});
-
-type LoginFormValues = z.infer<typeof loginSchema>;
+import { useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useAuth } from "@/components/common/AuthProvider";
+import { fetchApi } from "@/lib/api";
+import {
+  Box,
+  Button,
+  Container,
+  TextField,
+  Typography,
+  Paper,
+  Alert,
+} from "@mui/material";
 
 function LoginForm() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const searchParams = useSearchParams();
   const sessionExpired = searchParams?.get("session") === "expired";
-  const router = useRouter();
   const { login } = useAuth();
-  const [serverError, setServerError] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
-  });
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
-  const onSubmit = async (data: LoginFormValues) => {
-    setServerError('');
     try {
-      const res = await fetchApi('/auth/login', {
-        method: 'POST',
-        body: JSON.stringify(data),
+      const response = await fetchApi("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ username, password }),
       });
 
-      if (res.success && res.data) {
-        login(res.data);
-        if (res.data.role === 'admin') {
-          router.push('/admin/dashboard');
+      if (response.success) {
+        login(response.data);
+        if (response.data.role === "admin") {
+          router.push("/admin/dashboard");
         } else {
-          router.push('/engineer/profile');
+          router.push("/engineer/profile");
         }
+      } else {
+        setError(response.message || "??? ??? ????? ????? ??????");
       }
-    } catch (error: any) {
-      setServerError(error.message || 'فشل تسجيل الدخول');
+    } catch (err: any) {
+      setError(err.message || "??? ??? ????? ????? ??????");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'primary.50', p: 2 }}>
-      <Card sx={{ maxWidth: 400, width: '100%' }}>
-        <CardContent sx={{ p: 4 }}>
-          <Box sx={{ textAlign: 'center', mb: 4 }}>
-            <Typography variant="h5" component="h1" sx={{ fontWeight: 700 }} color="primary.main" gutterBottom>
-              تسجيل الدخول
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Paper elevation={3} sx={{ p: 4, width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+          {sessionExpired && (
+            <Typography color="error" sx={{ mb: 2 }}>
+              ????? ??????? ???? ?????? ?? ????
             </Typography>
-            <Typography variant="body2" color="text.secondary">
-              مرحباً بك مجدداً في أطلس كوبكو
-            </Typography>
-          </Box>
-
-          {serverError && (
-            <Alert severity="error" sx={{ mb: 3 }}>
-              {serverError}
-            </Alert>
           )}
-
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <Typography component="h1" variant="h5" sx={{ fontWeight: "bold" }}>
+            ????? ??????
+          </Typography>
+          
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, width: "100%" }}>
+            {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+            
             <TextField
-              fullWidth
-              label="اسم المستخدم"
-              variant="outlined"
               margin="normal"
-              {...register('username')}
-              error={!!errors.username}
-              helperText={errors.username?.message}
-              slotProps={{ inputLabel: { shrink: true } }}
+              required
+              fullWidth
+              id="username"
+              label="??? ????????"
+              name="username"
+              autoComplete="username"
+              autoFocus
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
-
             <TextField
-              fullWidth
-              label="كلمة المرور"
-              type={showPassword ? 'text' : 'password'}
-              variant="outlined"
               margin="normal"
-              {...register('password')}
-              error={!!errors.password}
-              helperText={errors.password?.message}
-              slotProps={{
-                inputLabel: { shrink: true },
-                input: {
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={() => setShowPassword(!showPassword)}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }
-              }}
+              required
+              fullWidth
+              name="password"
+              label="???? ??????"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              size="large"
-              disabled={isSubmitting}
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, py: 1.5, fontSize: "1.1rem" }}
+              disabled={loading}
             >
-              {isSubmitting ? 'جاري الدخول...' : 'دخول'}
+              {loading ? "???? ??????..." : "????"}
             </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </Box>
+          </Box>
+        </Paper>
+      </Box>
+    </Container>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>???? ???????...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }

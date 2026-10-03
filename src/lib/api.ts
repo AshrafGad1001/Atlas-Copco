@@ -1,4 +1,3 @@
-
 export const API_BASE_URL = "/api";
 
 export const fetchApi = async (endpoint: string, options: RequestInit = {}) => {

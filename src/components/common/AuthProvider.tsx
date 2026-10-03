@@ -1,17 +1,16 @@
-'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useRouter } from 'next/navigation';
-import { useRouter } from 'next/navigation';
-import { useRouter } from 'next/navigation';
-import { fetchApi } from '@/lib/api';
+"use client";
+
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import { fetchApi } from "@/lib/api";
 
 type User = {
   id: string;
   fullName: string;
   username: string;
   email: string;
-  role: 'admin' | 'engineer';
+  role: "admin" | "engineer";
   region?: any;
 };
 
@@ -29,13 +28,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const router = useRouter();
-  const router = useRouter();
 
   const checkAuth = async () => {
     try {
       setLoading(true);
-      const res = await fetchApi('/auth/me');
+      const res = await fetchApi("/auth/me");
       if (res.success && res.data) {
         setUser(res.data);
       } else {
@@ -43,10 +40,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (error: any) {
       setUser(null);
-      if (error?.message?.includes('401') || (error.status === 401) || error?.message?.includes('OUSO')) {
-        await fetchApi('/auth/logout', { method: 'POST' }).catch(() => {});
-        if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
-          router.replace('/login?session=expired');
+      if (error?.message?.includes("401") || (error.status === 401) || error?.message?.includes("OUSO U.OOO-")) {
+        await fetchApi("/auth/logout", { method: "POST" }).catch(() => {});
+        if (typeof window !== "undefined" && window.location.pathname !== "/login") {
+          router.replace("/login?session=expired");
         }
       }
     } finally {
@@ -64,12 +61,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      await fetchApi('/auth/logout', { method: 'POST' });
+      await fetchApi("/auth/logout", { method: "POST" });
     } catch (error) {
       // Ignore
     } finally {
       setUser(null);
-      window.location.href = '/login';
+      window.location.href = "/login";
     }
   };
 
