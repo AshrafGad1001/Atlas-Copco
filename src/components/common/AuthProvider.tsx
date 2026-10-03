@@ -1,5 +1,6 @@
 'use client';
 
+import { clearAuthCookie } from "@/app/actions";
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { fetchApi } from '@/lib/api';
 
@@ -40,6 +41,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (error?.message?.includes('401') || (error.status === 401) || error?.message?.includes('غير مصرح')) {
         await fetchApi('/auth/logout', { method: 'POST' }).catch(() => {});
         if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+          await clearAuthCookie();
           window.location.replace('/login');
         }
       }
