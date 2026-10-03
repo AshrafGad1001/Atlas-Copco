@@ -26,7 +26,9 @@ const loginSchema = z.object({
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
-export default function LoginPage() {
+function LoginForm() {
+  const searchParams = useSearchParams();
+  const sessionExpired = searchParams?.get("session") === "expired";
   const router = useRouter();
   const { login } = useAuth();
   const [serverError, setServerError] = useState('');

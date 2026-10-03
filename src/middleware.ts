@@ -23,6 +23,7 @@ export async function middleware(request: NextRequest) {
     
     const role = payload.role as string;
 
+    if (pathname === '/login' && request.nextUrl.searchParams.get('session') === 'expired') return NextResponse.next();
     if (isPublicRoute) {
       if (role === 'admin') return NextResponse.redirect(new URL('/admin/dashboard', request.url));
       if (role === 'engineer') return NextResponse.redirect(new URL('/engineer/profile', request.url));

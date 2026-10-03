@@ -1,6 +1,8 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { fetchApi } from '@/lib/api';
 
 type User = {
@@ -25,6 +27,8 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const router = useRouter();
 
   const checkAuth = async () => {
     try {
@@ -37,14 +41,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (error: any) {
       setUser(null);
-      if (error?.message?.includes('401') || (error.status === 401) || error?.message?.includes('غير مصرح')) {
+      if (error?.message?.includes('401') || (error.status === 401) || error?.message?.includes('OUSO')) {
         await fetchApi('/auth/logout', { method: 'POST' }).catch(() => {});
         if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
-          await fetch("/api/logout", { method: "POST" }).catch(() => {});
-        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=localhost;";
-        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=127.0.0.1;";
-          window.location.replace('/login');
+          router.replace('/login?session=expired');
         }
       }
     } finally {
