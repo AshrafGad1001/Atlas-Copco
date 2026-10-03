@@ -77,13 +77,13 @@ function LoginForm() {
           </Box>
 
           {sessionExpired && (
-            <Alert severity="warning" sx={{ mb: 3 }}>
+            <Alert severity="warning" data-testid="session-expired-alert" sx={{ mb: 3 }}>
               انتهت الجلسة، سجّل الدخول من جديد
             </Alert>
           )}
 
           {serverError && (
-            <Alert severity="error" sx={{ mb: 3 }}>
+            <Alert severity="error" data-testid="login-error" sx={{ mb: 3 }}>
               {serverError}
             </Alert>
           )}

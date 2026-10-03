@@ -34,7 +34,7 @@ export default function EngineerProfilePage() {
   };
 
   return (
-    <div>
+    <div data-testid="engineer-profile-page">
       <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
         الملف الشخصي
       </Typography>

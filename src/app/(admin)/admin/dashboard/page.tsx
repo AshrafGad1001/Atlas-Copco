@@ -19,7 +19,7 @@ export default function AdminDashboardPage() {
   }, []);
 
   const StatCard = ({ title, value, icon, color }: any) => (
-    <Card sx={{ height: '100%' }}>
+    <Card data-testid="admin-stat-card" sx={{ height: '100%' }}>
       <CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Box>
