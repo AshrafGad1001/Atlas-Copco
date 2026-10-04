@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchApi } from "@/lib/api";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Skeleton, Alert, Button } from "@mui/material";
+import { displayName } from "@/lib/helpers";
 
 export default function StaleCompanies() {
   const [data, setData] = useState<any[]>([]);
@@ -35,7 +36,7 @@ export default function StaleCompanies() {
         <TableBody>
           {data.map(c => (
             <TableRow key={c._id} hover style={{ cursor: "pointer" }} onClick={() => window.location.href = `/admin/companies?search=${c.nameEn}`}>
-              <TableCell>{c.nameAr}</TableCell>
+              <TableCell>{displayName(c)}</TableCell>
               <TableCell>{c.region?.name}</TableCell>
               <TableCell>{c.lastVisitAt ? new Date(c.lastVisitAt).toLocaleDateString("ar-EG") : "لم تُزَر أبداً"}</TableCell>
             </TableRow>

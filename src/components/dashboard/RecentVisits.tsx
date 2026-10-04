@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchApi } from "@/lib/api";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Skeleton, Alert, Button } from "@mui/material";
+import { displayName } from "@/lib/helpers";
 
 export default function RecentVisits() {
   const [data, setData] = useState<any[]>([]);
@@ -38,7 +39,7 @@ export default function RecentVisits() {
             <TableRow key={v._id} hover style={{ cursor: "pointer" }} onClick={() => window.location.href = `/admin/visits/${v._id}`}>
               <TableCell>{new Date(v.visitDate).toLocaleString("ar-EG")}</TableCell>
               <TableCell>{v.engineer?.fullName}</TableCell>
-              <TableCell>{v.company?.nameAr}</TableCell>
+              <TableCell>{displayName(v.company)}</TableCell>
               <TableCell>{v.type === "completed" ? "مكتملة" : v.type === "planned" ? "مخطط لها" : "ملغاة"}</TableCell>
             </TableRow>
           ))}

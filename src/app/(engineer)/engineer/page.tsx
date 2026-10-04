@@ -8,6 +8,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useAuth } from "@/components/common/AuthProvider";
 import { fetchApi } from "@/lib/api";
 import Link from "next/link";
+import { displayName } from "@/lib/helpers";
 
 export default function EngineerHomePage() {
   const { user } = useAuth();
@@ -86,7 +87,7 @@ export default function EngineerHomePage() {
             {recent.map((v, i) => (
               <ListItem key={v._id} divider={i < recent.length - 1} component={Link} href={`/engineer/visits/${v._id}`} sx={{ color: "inherit", textDecoration: "none" }}>
                 <ListItemText
-                  primary={v.company?.nameAr}
+                  primary={displayName(v.company)}
                   secondary={new Date(v.visitDate).toLocaleDateString("ar-EG") + " - " + (v.type === "completed" ? "مكتملة" : v.type === "planned" ? "مخطط لها" : "ملغاة")}
                 />
               </ListItem>

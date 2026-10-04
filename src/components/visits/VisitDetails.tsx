@@ -2,6 +2,7 @@
 "use client";
 import React, { useState } from "react";
 import { VisitForm } from "./VisitForm";
+import { displayName } from "@/lib/helpers";
 
 
 interface VisitDetailsProps {
@@ -57,7 +58,7 @@ export function VisitDetails({ visit, onUpdate, onDelete, isAdmin }: VisitDetail
       <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
         <div className="flex justify-between items-start mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-gray-800">{visit.company?.nameAr}</h2>
+            <h2 className="text-2xl font-bold text-gray-800">{displayName(visit.company)}</h2>
             <p className="text-gray-500 mt-1">المهندس المسؤول: {visit.engineer?.fullName}</p>
           </div>
           <div className="flex space-x-2 space-x-reverse">
