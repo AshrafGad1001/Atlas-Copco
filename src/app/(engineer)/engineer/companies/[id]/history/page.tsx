@@ -16,6 +16,7 @@ import TimelineOppositeContent, {
 import { fetchApi } from '@/lib/api';
 import { useParams, useRouter } from 'next/navigation';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { formatDate } from "@/lib/helpers";
 
 export default function CompanyHistoryPage() {
   const { id } = useParams();
@@ -63,9 +64,7 @@ export default function CompanyHistoryPage() {
               {data.visits.map((visit: any, index: number) => (
                 <TimelineItem key={visit._id}>
                   <TimelineOppositeContent color="text.secondary">
-                    {new Date(visit.visitDate).toLocaleDateString('ar-EG', {
-                      year: 'numeric', month: 'short', day: 'numeric'
-                    })}
+                    {formatDate(visit.visitDate)}
                   </TimelineOppositeContent>
                   <TimelineSeparator>
                     <TimelineDot color={visit.status === 'completed' ? 'success' : visit.status === 'planned' ? 'warning' : 'error'} />

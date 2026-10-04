@@ -78,19 +78,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton component={Link} href="/admin/regions">
-            <ListItemIcon><DashboardIcon /></ListItemIcon>
+            <ListItemIcon><MapIcon /></ListItemIcon>
             <ListItemText primary="المناطق" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton component={Link} href="/admin/companies">
-            <ListItemIcon><DashboardIcon /></ListItemIcon>
+            <ListItemIcon><BusinessIcon /></ListItemIcon>
             <ListItemText primary="الشركات" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton component={Link} href="/admin/visits">
-            <ListItemIcon><DashboardIcon /></ListItemIcon>
+            <ListItemIcon><EventNoteIcon /></ListItemIcon>
             <ListItemText primary="الزيارات" />
           </ListItemButton>
         </ListItem>
@@ -99,8 +99,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <ListItemIcon><ExitToAppIcon /></ListItemIcon>
             <ListItemText primary="تسجيل الخروج" />
           </ListItemButton>
-        </ListItem>
-</List>
+        </ListItem></List>
     </div>
   );
 

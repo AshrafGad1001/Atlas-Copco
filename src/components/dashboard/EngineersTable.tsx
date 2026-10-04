@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchApi } from "@/lib/api";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Skeleton, Alert, Button, Avatar, Box } from "@mui/material";
+import { formatDate } from "@/lib/helpers";
 
 export default function EngineersTable() {
   const [data, setData] = useState<any[]>([]);
@@ -50,7 +51,7 @@ export default function EngineersTable() {
               </TableCell>
               <TableCell>{e.isActive ? "نشط" : "معطل"}</TableCell>
               <TableCell>{e.visitsMonth}</TableCell>
-              <TableCell>{e.lastVisitAt ? new Date(e.lastVisitAt).toLocaleDateString("ar-EG") : "-"}</TableCell>
+              <TableCell>{e.lastVisitAt ? formatDate(e.lastVisitAt) : "-"}</TableCell>
             </TableRow>
           ))}
         </TableBody>

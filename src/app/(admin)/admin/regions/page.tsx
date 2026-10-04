@@ -12,6 +12,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { fetchApi } from '@/lib/api';
+import { formatDate } from "@/lib/helpers";
 
 export default function AdminRegionsPage() {
   const [regions, setRegions] = useState<any[]>([]);
@@ -39,7 +40,7 @@ export default function AdminRegionsPage() {
                 {regions.map((row) => (
                   <TableRow key={row._id}>
                     <TableCell>{row.name}</TableCell>
-                    <TableCell>{new Date(row.createdAt).toLocaleDateString('ar-EG')}</TableCell>
+                    <TableCell>{formatDate(row.createdAt)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

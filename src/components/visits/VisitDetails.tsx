@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { VisitForm } from "./VisitForm";
 import { displayName } from "@/lib/helpers";
+import { formatDateTime, formatDate } from "@/lib/helpers";
 
 
 interface VisitDetailsProps {
@@ -77,7 +78,7 @@ export function VisitDetails({ visit, onUpdate, onDelete, isAdmin }: VisitDetail
           <div>
             <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">تفاصيل الزيارة</h3>
             <div className="space-y-3">
-              <div><span className="text-gray-500 w-24 inline-block">التاريخ:</span> {new Date(visit.visitDate).toLocaleString("ar-EG")}</div>
+              <div><span className="text-gray-500 w-24 inline-block">التاريخ:</span> {formatDateTime(visit.visitDate)}</div>
               <div><span className="text-gray-500 w-24 inline-block">النوع:</span> {visit.type === "planned" ? "مخطط لها" : visit.type === "completed" ? "مكتملة" : "ملغاة"}</div>
               <div><span className="text-gray-500 w-24 inline-block">المنطقة:</span> {visit.company?.region?.name || "غير محدد"}</div>
             </div>
@@ -115,7 +116,7 @@ export function VisitDetails({ visit, onUpdate, onDelete, isAdmin }: VisitDetail
             {visit.editHistory.map((history: any, idx: number) => (
               <div key={idx} className="pb-4 border-b border-gray-100 last:border-0 last:pb-0">
                 <div className="text-sm text-gray-500 mb-2">
-                  تم التعديل بواسطة <span className="font-semibold text-gray-700">{history.editedBy?.fullName || "مجهول"}</span> بتاريخ {new Date(history.editedAt).toLocaleString("ar-EG")}
+                  تم التعديل بواسطة <span className="font-semibold text-gray-700">{history.editedBy?.fullName || "مجهول"}</span> بتاريخ {formatDateTime(history.editedAt)}
                 </div>
                 <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
                   {history.changes.map((c: any, cidx: number) => (

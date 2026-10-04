@@ -10,7 +10,7 @@ import EngineersTable from "@/components/dashboard/EngineersTable";
 
 export default function AdminDashboardPage() {
   return (
-    <Box>
+    <Box sx={{ mt: { xs: 2, md: 0 } }}>
       <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: "bold", mb: 3 }}>
         لوحة التحكم
       </Typography>
@@ -26,7 +26,7 @@ export default function AdminDashboardPage() {
           <RecentVisits />
         </Box>
         <Box sx={{ flex: 1, overflowX: "auto" }}>
-          <Typography variant="h6" gutterBottom>شركات تحتاج لزيارة</Typography>
+          <Typography variant="h6" gutterBottom>شركات بحاجة لزيارة</Typography>
           <StaleCompanies />
         </Box>
       </Box>

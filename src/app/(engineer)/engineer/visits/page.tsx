@@ -18,6 +18,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import DownloadIcon from '@mui/icons-material/Download';
 import { fetchApi, API_BASE_URL } from '@/lib/api';
+import { formatDate } from "@/lib/helpers";
 
 export default function EngineerVisitsPage() {
   const [visits, setVisits] = useState<any[]>([]);
@@ -74,7 +75,7 @@ export default function EngineerVisitsPage() {
                   <TableRow key={row._id} hover onClick={() => window.location.href = `/engineer/visits/${row._id}`} style={{ cursor: "pointer" }}>
                     <TableCell>
                       {!row.canEdit && <span title="?? لا توجد زيارات (لا توجد زيارات 24 لا توجد زيارات)" style={{ marginRight: 8, fontSize: "12px" }}>??</span>}
-                      {new Date(row.visitDate).toLocaleDateString('ar-EG')}</TableCell>
+                      {formatDate(row.visitDate)}</TableCell>
                     <TableCell>{row.company?.name}</TableCell>
                     <TableCell>{row.company?.region?.name || 'غير محدد'}</TableCell>
                     <TableCell>
