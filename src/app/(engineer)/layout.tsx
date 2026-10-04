@@ -42,7 +42,7 @@ export default function EngineerLayout({ children }: { children: React.ReactNode
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh", pb: 7 }}>
       <AppBar position="sticky" color="inherit" elevation={1}>
         <Toolbar>
-          <Typography variant="h6" color="primary" sx={{ fontWeight: "bold" }}>???? ?????</Typography>
+          <Typography variant="h6" color="primary" sx={{ fontWeight: "bold" }}>أطلس كوبكو</Typography>
         </Toolbar>
       </AppBar>
 
@@ -51,25 +51,18 @@ export default function EngineerLayout({ children }: { children: React.ReactNode
       </Box>
 
       <Paper sx={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 1000 }} elevation={3}>
-        <BottomNavigation
-          showLabels
-          value={getNavValue()}
-          sx={{
-            "& .Mui-selected": {
-              color: "primary.700",
-              bgcolor: "primary.50", // Closest to primary.100 that is safe, or we can use custom color
-            },
-            "& .MuiBottomNavigationAction-root": {
-              minWidth: "auto",
-              padding: "6px 0",
-            }
-          }}
-        >
-          <BottomNavigationAction component={Link} href="/engineer" label="????????" icon={<HomeIcon />} />
-          <BottomNavigationAction component={Link} href="/engineer/visits/new" label="????? ?????" icon={<AddBoxIcon />} />
-          <BottomNavigationAction component={Link} href="/engineer/visits" label="???????" icon={<MapIcon />} />
-          <BottomNavigationAction component={Link} href="/engineer/companies" label="???????" icon={<BusinessIcon />} />
-          <BottomNavigationAction component={Link} href="/engineer/profile" label="?????" icon={<PersonIcon />} />
+        <BottomNavigation showLabels value={value} onChange={(e, v) => setValue(v)}>
+          <BottomNavigationAction component={Link} href="/engineer" label="الرئيسية" icon={<HomeIcon />} />
+          <BottomNavigationAction component={Link} href="/engineer/visits/new" label="زيارة جديدة" icon={<AddBoxIcon />} />
+          <BottomNavigationAction component={Link} href="/engineer/visits" label="الزيارات" icon={<MapIcon />} />
+          <BottomNavigationAction component={Link} href="/engineer/companies" label="الشركات" icon={<BusinessIcon />} />
+          <BottomNavigationAction component={Link} href="/engineer/profile" label="حسابي" icon={<PersonIcon />} />
+
+          } />
+          } />
+          } />
+          } />
+          } />
         </BottomNavigation>
       </Paper>
     </Box>

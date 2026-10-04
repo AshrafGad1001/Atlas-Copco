@@ -17,12 +17,12 @@ export function VisitDetails({ visit, onUpdate, onDelete, isAdmin }: VisitDetail
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleDelete = async () => {
-    if (!confirm("?? ??? ????? ?? ??? ??? ????????")) return;
+    if (!confirm("هل أنت متأكد من حذف هذه الزيارة؟")) return;
     try {
       setIsDeleting(true);
       await onDelete();
     } catch (err: any) {
-      setErrorMsg(err.message || "??? ??? ????? ?????");
+      setErrorMsg(err.message || "حدث خطأ أثناء الحذف");
       setIsDeleting(false);
     }
   };
@@ -39,11 +39,11 @@ export function VisitDetails({ visit, onUpdate, onDelete, isAdmin }: VisitDetail
   if (isEditing) {
     return (
       <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-        <h2 className="text-xl font-semibold mb-6">????? ???????</h2>
+        <h2 className="text-xl font-semibold mb-6">تفاصيل الزيارة</h2>
         <VisitForm initialData={visit} onSubmit={handleUpdate} />
         <div className="mt-4">
           <button onClick={() => setIsEditing(false)} className="text-gray-500 underline text-sm">
-            ????? ???????
+            تفاصيل الزيارة
           </button>
         </div>
       </div>
@@ -58,42 +58,42 @@ export function VisitDetails({ visit, onUpdate, onDelete, isAdmin }: VisitDetail
         <div className="flex justify-between items-start mb-6">
           <div>
             <h2 className="text-2xl font-bold text-gray-800">{visit.company?.nameAr}</h2>
-            <p className="text-gray-500 mt-1">???????: {visit.engineer?.fullName}</p>
+            <p className="text-gray-500 mt-1">المهندس المسؤول: {visit.engineer?.fullName}</p>
           </div>
           <div className="flex space-x-2 space-x-reverse">
             {!visit.canEdit ? (
-               <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded">????? ???? ??????? (24 ????)</span>
+               <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded">لا يمكن تعديل الزيارة (انقضت 24 ساعة) (24 لا يمكن تعديل الزيارة (انقضت 24 ساعة))</span>
             ) : (
-               <button className="px-4 py-2 border rounded hover:bg-gray-50" onClick={() => setIsEditing(true)}>?????</button>
+               <button className="px-4 py-2 border rounded hover:bg-gray-50" onClick={() => setIsEditing(true)}>مكتملة</button>
             )}
             {visit.canDelete && (
-               <button disabled={isDeleting} className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50" onClick={handleDelete}>???</button>
+               <button disabled={isDeleting} className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50" onClick={handleDelete}>حذف</button>
             )}
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">???????? ????????</h3>
+            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">تفاصيل الزيارة</h3>
             <div className="space-y-3">
-              <div><span className="text-gray-500 w-24 inline-block">???????:</span> {new Date(visit.visitDate).toLocaleString("ar-EG")}</div>
-              <div><span className="text-gray-500 w-24 inline-block">?????:</span> {visit.type === "planned" ? "???? ???" : visit.type === "completed" ? "??????" : "?????"}</div>
-              <div><span className="text-gray-500 w-24 inline-block">???????:</span> {visit.company?.region?.name || "??? ????"}</div>
+              <div><span className="text-gray-500 w-24 inline-block">التاريخ:</span> {new Date(visit.visitDate).toLocaleString("ar-EG")}</div>
+              <div><span className="text-gray-500 w-24 inline-block">النوع:</span> {visit.type === "planned" ? "مخطط لها" : visit.type === "completed" ? "مكتملة" : "ملغاة"}</div>
+              <div><span className="text-gray-500 w-24 inline-block">المنطقة:</span> {visit.company?.region?.name || "غير محدد"}</div>
             </div>
           </div>
           
           <div>
-            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">??????? ??????</h3>
+            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">تفاصيل المتابعة</h3>
             <div className="space-y-3">
-              <div><strong className="block text-gray-700">?????????:</strong> <p className="text-gray-600 mt-1 whitespace-pre-wrap">{visit.notes || "?? ????"}</p></div>
-              <div><strong className="block text-gray-700">?????? ???????:</strong> <p className="text-gray-600 mt-1 whitespace-pre-wrap">{visit.nextStep || "?? ????"}</p></div>
+              <div><strong className="block text-gray-700">ملاحظات:</strong> <p className="text-gray-600 mt-1 whitespace-pre-wrap">{visit.notes || "ملاحظات"}</p></div>
+              <div><strong className="block text-gray-700">الخطوة القادمة:</strong> <p className="text-gray-600 mt-1 whitespace-pre-wrap">{visit.nextStep || "الخطوة القادمة"}</p></div>
             </div>
           </div>
         </div>
 
         {visit.attendees && visit.attendees.length > 0 && (
           <div className="mt-8 pt-6 border-t border-gray-100">
-            <h3 className="text-lg font-semibold mb-4">???????? ?? ??????</h3>
+            <h3 className="text-lg font-semibold mb-4">الحاضرون في الزيارة</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {visit.attendees.map((att: any, idx: number) => (
                 <div key={idx} className="bg-gray-50 p-3 rounded border">
@@ -109,17 +109,17 @@ export function VisitDetails({ visit, onUpdate, onDelete, isAdmin }: VisitDetail
 
       {isAdmin && visit.editHistory && visit.editHistory.length > 0 && (
         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold mb-4">??? ?????????</h3>
+          <h3 className="text-lg font-semibold mb-4">سجل التعديلات</h3>
           <div className="space-y-4">
             {visit.editHistory.map((history: any, idx: number) => (
               <div key={idx} className="pb-4 border-b border-gray-100 last:border-0 last:pb-0">
                 <div className="text-sm text-gray-500 mb-2">
-                  ?? ??????? ?????? <span className="font-semibold text-gray-700">{history.editedBy?.fullName || "??????"}</span> ?????? {new Date(history.editedAt).toLocaleString("ar-EG")}
+                  تم التعديل بواسطة <span className="font-semibold text-gray-700">{history.editedBy?.fullName || "مجهول"}</span> بتاريخ {new Date(history.editedAt).toLocaleString("ar-EG")}
                 </div>
                 <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
                   {history.changes.map((c: any, cidx: number) => (
                     <li key={cidx}>
-                      ????? <span className="font-semibold">{c.field}</span> ?? <span className="line-through bg-red-50 text-red-700 px-1 rounded">{c.from}</span> ??? <span className="bg-green-50 text-green-700 px-1 rounded">{c.to}</span>
+                    تغير <span className="font-semibold">{c.field}</span> من <span className="line-through bg-red-50 text-red-700 px-1 rounded">{c.from}</span> إلى <span className="bg-green-50 text-green-700 px-1 rounded">{c.to}</span>
                     </li>
                   ))}
                 </ul>

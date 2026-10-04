@@ -73,7 +73,7 @@ export default function EngineerVisitsPage() {
                 {visits.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                   <TableRow key={row._id} hover onClick={() => window.location.href = `/engineer/visits/${row._id}`} style={{ cursor: "pointer" }}>
                     <TableCell>
-                      {!row.canEdit && <span title="?? ???? ??????? (????? 24 ????)" style={{ marginRight: 8, fontSize: "12px" }}>??</span>}
+                      {!row.canEdit && <span title="?? لا توجد زيارات (لا توجد زيارات 24 لا توجد زيارات)" style={{ marginRight: 8, fontSize: "12px" }}>??</span>}
                       {new Date(row.visitDate).toLocaleDateString('ar-EG')}</TableCell>
                     <TableCell>{row.company?.name}</TableCell>
                     <TableCell>{row.company?.region?.name || 'غير محدد'}</TableCell>

@@ -44,8 +44,8 @@ export default function AdminVisitDetailsPage() {
     router.push("/admin/visits");
   };
 
-  if (loading) return <div>???? ???????...</div>;
-  if (!visit) return <div>?? ??? ?????? ??? ???????</div>;
+  if (loading) return <div>جاري التحميل...</div>;
+  if (!visit) return <div>?? لم يتم العثور على الزيارة</div>;
 
   return (
     <div className="max-w-4xl mx-auto py-6" data-testid="admin-visit-page">
