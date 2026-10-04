@@ -52,15 +52,15 @@ export default function EngineerCompaniesPage() {
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
         <Typography variant="h4" component="h1" sx={{ fontWeight: "bold" }}>
-          \u0627\u0644\u0634\u0631\u0643\u0627\u062a
+          الشركات
         </Typography>
         <Button variant="contained" onClick={handleAdd} data-testid="add-company-btn">
-          \u0625\u0636\u0627\u0641\u0629 \u0634\u0631\u0643\u0629
+          إضافة شركة
         </Button>
       </div>
       
       <TextField 
-        label="\u0628\u062d\u062b" 
+        label="بحث" 
         variant="outlined" 
         fullWidth 
         sx={{ mb: 2 }}
@@ -74,10 +74,10 @@ export default function EngineerCompaniesPage() {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>\u0627\u0644\u0627\u0633\u0645</TableCell>
-                  <TableCell>\u0627\u0644\u0645\u0646\u0637\u0642\u0629</TableCell>
-                  <TableCell>\u0627\u0644\u0635\u0646\u0627\u0639\u0629</TableCell>
-                  <TableCell>\u0625\u062c\u0631\u0627\u0621\u0627\u062a</TableCell>
+                  <TableCell>الاسم</TableCell>
+                  <TableCell>المنطقة</TableCell>
+                  <TableCell>الصناعة</TableCell>
+                  <TableCell>إجراءات</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -87,7 +87,7 @@ export default function EngineerCompaniesPage() {
                     <TableCell>{row.region?.name || "-"}</TableCell>
                     <TableCell>{row.industry || "-"}</TableCell>
                     <TableCell>
-                      <Button size="small" onClick={() => handleEdit(row)}>\u062a\u0639\u062f\u064a\u0644</Button>
+                      <Button size="small" onClick={() => handleEdit(row)}>تعديل</Button>
                     </TableCell>
                   </TableRow>
                 ))}

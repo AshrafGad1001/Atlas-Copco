@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useEffect, useState } from "react";
 import { fetchApi } from "@/lib/api";
@@ -20,18 +19,18 @@ export default function RecentVisits() {
   useEffect(() => { loadData(); }, []);
 
   if (loading) return <Skeleton variant="rectangular" height={200} data-testid="recent-visits-loading" />;
-  if (error) return <Alert severity="error" action={<Button color="inherit" size="small" onClick={loadData}>????? ????????</Button>}>??? ???</Alert>;
-  if (!data || data.length === 0) return <Alert severity="info" data-testid="recent-visits-empty">?? ???? ??????</Alert>;
+  if (error) return <Alert severity="error" action={<Button color="inherit" size="small" onClick={loadData}>إعادة المحاولة</Button>}>حدث خطأ</Alert>;
+  if (!data || data.length === 0) return <Alert severity="info" data-testid="recent-visits-empty">لا توجد زيارات</Alert>;
 
   return (
     <TableContainer component={Paper} data-testid="recent-visits">
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>??????? ??????</TableCell>
-            <TableCell>???????</TableCell>
-            <TableCell>??????</TableCell>
-            <TableCell>?????</TableCell>
+            <TableCell>التاريخ والوقت</TableCell>
+            <TableCell>المهندس</TableCell>
+            <TableCell>الشركة</TableCell>
+            <TableCell>النوع</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -40,7 +39,7 @@ export default function RecentVisits() {
               <TableCell>{new Date(v.visitDate).toLocaleString("ar-EG")}</TableCell>
               <TableCell>{v.engineer?.fullName}</TableCell>
               <TableCell>{v.company?.nameAr}</TableCell>
-              <TableCell>{v.type === "completed" ? "??????" : v.type === "planned" ? "???? ???" : "?????"}</TableCell>
+              <TableCell>{v.type === "completed" ? "مكتملة" : v.type === "planned" ? "مخطط لها" : "ملغاة"}</TableCell>
             </TableRow>
           ))}
         </TableBody>

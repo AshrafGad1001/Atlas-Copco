@@ -63,40 +63,41 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </Toolbar>
       <List>
         
+        
         <ListItem disablePadding>
           <ListItemButton component={Link} href="/admin/dashboard">
             <ListItemIcon><DashboardIcon /></ListItemIcon>
-            <ListItemText primary="???? ??????" />
+            <ListItemText primary="لوحة التحكم" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton component={Link} href="/admin/users">
             <ListItemIcon><PeopleIcon /></ListItemIcon>
-            <ListItemText primary="?????????" />
+            <ListItemText primary="المهندسين" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton component={Link} href="/admin/regions">
             <ListItemIcon><DashboardIcon /></ListItemIcon>
-            <ListItemText primary="???????" />
+            <ListItemText primary="المناطق" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton component={Link} href="/admin/companies">
             <ListItemIcon><DashboardIcon /></ListItemIcon>
-            <ListItemText primary="???????" />
+            <ListItemText primary="الشركات" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton component={Link} href="/admin/visits">
             <ListItemIcon><DashboardIcon /></ListItemIcon>
-            <ListItemText primary="????????" />
+            <ListItemText primary="الزيارات" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton onClick={logout}>
             <ListItemIcon><ExitToAppIcon /></ListItemIcon>
-            <ListItemText primary="????? ??????" />
+            <ListItemText primary="تسجيل الخروج" />
           </ListItemButton>
         </ListItem>
 </List>

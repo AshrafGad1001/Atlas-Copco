@@ -15,7 +15,7 @@ const companySchema = z.object({
   industry: z.string().optional(),
   notes: z.string().optional(),
 }).refine(data => data.nameAr || data.nameEn, {
-  message: "\u064a\u062c\u0628 \u0625\u062f\u062e\u0627\u0644 \u0627\u0644\u0627\u0633\u0645 \u0628\u0627\u0644\u0639\u0631\u0628\u064a\u0629 \u0623\u0648 \u0627\u0644\u0625\u0646\u062c\u0644\u064a\u0632\u064a\u0629",
+  message: "يجب إدخال الاسم بالعربية أو الإنجليزية",
   path: ["nameAr"]
 });
 
@@ -84,10 +84,10 @@ export default function CompanyFormModal({ open, onClose, onSuccess, initialData
       setSimilarConfirm({show: false, payload: null, similarName: ""});
       onClose();
     } catch (err: any) {
-              if (err.status === 409 && err.message.includes("\u0645\u0634\u0627\u0628\u0647\u0629")) {
+              if (err.status === 409 && err.message.includes("مشابهة")) {
         setSimilarConfirm({ show: true, payload: data, similarName: "" }); 
       } else {
-        setSubmitError(err.message || "\u062d\u062f\u062b \u062e\u0637\u0623");
+        setSubmitError(err.message || "حدث خطأ");
       }
     }
   };
@@ -95,7 +95,7 @@ export default function CompanyFormModal({ open, onClose, onSuccess, initialData
   return (
     <>
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{initialData ? "\u062a\u0639\u062f\u064a\u0644 \u0634\u0631\u0643\u0629" : "\u0625\u0636\u0627\u0641\u0629 \u0634\u0631\u0643\u0629"}</DialogTitle>
+      <DialogTitle>{initialData ? "تعديل شركة" : "إضافة شركة"}</DialogTitle>
       <form onSubmit={handleSubmit((d) => onSubmit(d, false))}>
         <DialogContent dividers>
           {submitError && <Alert severity="error" sx={{ mb: 2 }} data-testid="duplicate-error">{submitError}</Alert>}
@@ -103,14 +103,14 @@ export default function CompanyFormModal({ open, onClose, onSuccess, initialData
             name="nameAr"
             control={control}
             render={({ field }) => (
-              <TextField {...field} label="\u0627\u0644\u0627\u0633\u0645 \u0628\u0627\u0644\u0639\u0631\u0628\u064a" fullWidth margin="normal" error={!!errors.nameAr} helperText={errors.nameAr?.message} />
+              <TextField {...field} label="الاسم بالعربي" fullWidth margin="normal" error={!!errors.nameAr} helperText={errors.nameAr?.message} />
             )}
           />
           <Controller
             name="nameEn"
             control={control}
             render={({ field }) => (
-              <TextField {...field} label="\u0627\u0644\u0627\u0633\u0645 \u0628\u0627\u0644\u0625\u0646\u062c\u0644\u064a\u0632\u064a" fullWidth margin="normal" error={!!errors.nameEn} helperText={errors.nameEn?.message} />
+              <TextField {...field} label="الاسم بالإنجليزي" fullWidth margin="normal" error={!!errors.nameEn} helperText={errors.nameEn?.message} />
             )}
           />
           {isAdmin && (
@@ -118,7 +118,7 @@ export default function CompanyFormModal({ open, onClose, onSuccess, initialData
               name="region"
               control={control}
               render={({ field }) => (
-                <TextField {...field} select label="\u0627\u0644\u0645\u0646\u0637\u0642\u0629" fullWidth margin="normal" error={!!errors.region} helperText={errors.region?.message} disabled={regionsLoading}>
+                <TextField {...field} select label="المنطقة" fullWidth margin="normal" error={!!errors.region} helperText={errors.region?.message} disabled={regionsLoading}>
                   {regions.map(r => (
                     <MenuItem key={r._id} value={r._id}>{r.name}</MenuItem>
                   ))}
@@ -130,42 +130,42 @@ export default function CompanyFormModal({ open, onClose, onSuccess, initialData
             name="industry"
             control={control}
             render={({ field }) => (
-              <TextField {...field} label="\u0627\u0644\u0635\u0646\u0627\u0639\u0629" fullWidth margin="normal" />
+              <TextField {...field} label="الصناعة" fullWidth margin="normal" />
             )}
           />
           <Controller
             name="address"
             control={control}
             render={({ field }) => (
-              <TextField {...field} label="\u0627\u0644\u0639\u0646\u0648\u0627\u0646" fullWidth margin="normal" />
+              <TextField {...field} label="العنوان" fullWidth margin="normal" />
             )}
           />
           <Controller
             name="notes"
             control={control}
             render={({ field }) => (
-              <TextField {...field} label="\u0645\u0644\u0627\u062d\u0638\u0627\u062a" fullWidth margin="normal" multiline rows={3} />
+              <TextField {...field} label="ملاحظات" fullWidth margin="normal" multiline rows={3} />
             )}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose}>\u0625\u0644\u063a\u0627\u0621</Button>
+          <Button onClick={onClose}>إلغاء</Button>
           <Button type="submit" variant="contained" disabled={isSubmitting}>
-            {isSubmitting ? <CircularProgress size={24} /> : "\u062d\u0641\u0638"}
+            {isSubmitting ? <CircularProgress size={24} /> : "حفظ"}
           </Button>
         </DialogActions>
       </form>
     </Dialog>
 
       <Dialog open={similarConfirm.show} onClose={() => setSimilarConfirm({show: false, payload: null, similarName: ""})} data-testid="similar-dialog">
-        <DialogTitle>\u062a\u0623\u0643\u064a\u062f \u0627\u0644\u0625\u0636\u0627\u0641\u0629</DialogTitle>
+        <DialogTitle>تأكيد الإضافة</DialogTitle>
         <DialogContent>
-          <Typography>\u0641\u064a\u0647 \u0634\u0631\u0643\u0627\u062a \u0645\u0634\u0627\u0628\u0647\u0629.. \u0645\u062a\u0623\u0643\u062f\u061f</Typography>
+          <Typography>فيه شركات مشابهة.. متأكد؟</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setSimilarConfirm({show: false, payload: null, similarName: ""})}>\u0625\u0644\u063a\u0627\u0621</Button>
+          <Button onClick={() => setSimilarConfirm({show: false, payload: null, similarName: ""})}>إلغاء</Button>
           <Button onClick={() => onSubmit(similarConfirm.payload, true)} variant="contained" color="primary" data-testid="similar-confirm">
-            \u0645\u062a\u0623\u0643\u062f
+            متأكد
           </Button>
         </DialogActions>
       </Dialog>

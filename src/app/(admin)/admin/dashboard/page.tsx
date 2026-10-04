@@ -1,4 +1,3 @@
-
 "use client";
 import React from "react";
 import Box from "@mui/material/Box";
@@ -13,7 +12,7 @@ export default function AdminDashboardPage() {
   return (
     <Box>
       <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: "bold", mb: 3 }}>
-        ???? ??????
+        لوحة التحكم
       </Typography>
       
       <QuickActions />
@@ -23,17 +22,17 @@ export default function AdminDashboardPage() {
 
       <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 3, mb: 4 }}>
         <Box sx={{ flex: 1, overflowX: "auto" }}>
-          <Typography variant="h6" gutterBottom>??? ????????</Typography>
+          <Typography variant="h6" gutterBottom>آخر الزيارات</Typography>
           <RecentVisits />
         </Box>
         <Box sx={{ flex: 1, overflowX: "auto" }}>
-          <Typography variant="h6" gutterBottom>????? ????? ??????</Typography>
+          <Typography variant="h6" gutterBottom>شركات تحتاج لزيارة</Typography>
           <StaleCompanies />
         </Box>
       </Box>
 
       <Box sx={{ overflowX: "auto" }}>
-        <Typography variant="h6" gutterBottom>???? ?????????</Typography>
+        <Typography variant="h6" gutterBottom>أداء المهندسين</Typography>
         <EngineersTable />
       </Box>
     </Box>

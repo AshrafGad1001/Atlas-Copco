@@ -110,14 +110,14 @@ export default function AdminCompaniesPage() {
       if (isDryRun) {
         setImportPreview(res.data);
       } else {
-        alert(`\u062a\u0645 \u0625\u0636\u0627\u0641\u0629 ${res.data.added} \u0648\u062a\u062c\u0627\u0647\u0644 ${res.data.ignored}`);
+        alert(`تم إضافة ${res.data.added} وتجاهل ${res.data.ignored}`);
         setImportModalOpen(false);
         setImportFile(null);
         setImportPreview(null);
         loadCompanies();
       }
     } catch (e: any) {
-      alert(e.message || "\u062e\u0637\u0623");
+      alert(e.message || "خطأ");
     } finally {
       setImporting(false);
     }
@@ -127,21 +127,21 @@ export default function AdminCompaniesPage() {
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
         <Typography variant="h4" component="h1" sx={{ fontWeight: "bold" }}>
-          \u0625\u062f\u0627\u0631\u0629 \u0627\u0644\u0634\u0631\u0643\u0627\u062a
+          إدارة الشركات
         </Typography>
         <div>
           <Button variant="outlined" onClick={() => setImportModalOpen(true)} sx={{ mr: 1 }}>
-            \u0627\u0633\u062a\u064a\u0631\u0627\u062f Excel
+            استيراد Excel
           </Button>
           <Button variant="contained" onClick={handleAdd}>
-            \u0625\u0636\u0627\u0641\u0629 \u0634\u0631\u0643\u0629
+            إضافة شركة
           </Button>
         </div>
       </div>
       
       <div style={{ display: "flex", gap: 16, marginBottom: 16 }}>
         <TextField 
-          label="\u0628\u062d\u062b" 
+          label="بحث" 
           variant="outlined" 
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -149,12 +149,12 @@ export default function AdminCompaniesPage() {
         />
         <TextField
           select
-          label="\u0627\u0644\u0645\u0646\u0637\u0642\u0629"
+          label="المنطقة"
           value={regionFilter}
           onChange={(e) => setRegionFilter(e.target.value)}
           sx={{ width: 200 }}
         >
-          <MenuItem value="">\u0627\u0644\u0643\u0644</MenuItem>
+          <MenuItem value="">الكل</MenuItem>
           {regions.map(r => <MenuItem key={r._id} value={r._id}>{r.name}</MenuItem>)}
         </TextField>
       </div>
@@ -162,7 +162,7 @@ export default function AdminCompaniesPage() {
       {selectedIds.length > 1 && (
         <div style={{ marginBottom: 16 }}>
           <Button variant="contained" color="warning" onClick={() => setMergeModalOpen(true)}>
-            \u062f\u0645\u062c \u0627\u0644\u0634\u0631\u0643\u0627\u062a \u0627\u0644\u0645\u062d\u062f\u062f\u0629 ({selectedIds.length})
+            دمج الشركات المحددة ({selectedIds.length})
           </Button>
         </div>
       )}
@@ -174,10 +174,10 @@ export default function AdminCompaniesPage() {
               <TableHead>
                 <TableRow>
                   <TableCell padding="checkbox"></TableCell>
-                  <TableCell>\u0627\u0644\u0627\u0633\u0645</TableCell>
-                  <TableCell>\u0627\u0644\u0645\u0646\u0637\u0642\u0629</TableCell>
-                  <TableCell>\u0627\u0644\u0635\u0646\u0627\u0639\u0629</TableCell>
-                  <TableCell>\u0625\u062c\u0631\u0627\u0621\u0627\u062a</TableCell>
+                  <TableCell>الاسم</TableCell>
+                  <TableCell>المنطقة</TableCell>
+                  <TableCell>الصناعة</TableCell>
+                  <TableCell>إجراءات</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -190,7 +190,7 @@ export default function AdminCompaniesPage() {
                     <TableCell>{row.region?.name || "-"}</TableCell>
                     <TableCell>{row.industry || "-"}</TableCell>
                     <TableCell>
-                      <Button size="small" onClick={() => handleEdit(row)}>\u062a\u0639\u062f\u064a\u0644</Button>
+                      <Button size="small" onClick={() => handleEdit(row)}>تعديل</Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -214,9 +214,9 @@ export default function AdminCompaniesPage() {
       )}
 
       <Dialog open={mergeModalOpen} onClose={() => setMergeModalOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>\u062f\u0645\u062c \u0627\u0644\u0634\u0631\u0643\u0627\u062a</DialogTitle>
+        <DialogTitle>دمج الشركات</DialogTitle>
         <DialogContent dividers>
-          <Typography gutterBottom>\u0627\u062e\u062a\u0631 \u0627\u0644\u0634\u0631\u0643\u0629 \u0627\u0644\u0623\u0633\u0627\u0633\u064a\u0629:</Typography>
+          <Typography gutterBottom>اختر الشركة الأساسية:</Typography>
           <Select fullWidth value={targetMergeId} onChange={(e) => setTargetMergeId(e.target.value)}>
             {selectedIds.map(id => {
               const comp = companies.find(c => c._id === id);
@@ -225,34 +225,34 @@ export default function AdminCompaniesPage() {
           </Select>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setMergeModalOpen(false)}>\u0625\u0644\u063a\u0627\u0621</Button>
+          <Button onClick={() => setMergeModalOpen(false)}>إلغاء</Button>
           <Button onClick={handleMerge} variant="contained" color="warning" disabled={!targetMergeId}>
-            \u062f\u0645\u062c
+            دمج
           </Button>
         </DialogActions>
       </Dialog>
 
       <Dialog open={importModalOpen} onClose={() => { setImportModalOpen(false); setImportPreview(null); setImportFile(null); }}>
-        <DialogTitle>\u0627\u0633\u062a\u064a\u0631\u0627\u062f \u0634\u0631\u0643\u0627\u062a</DialogTitle>
+        <DialogTitle>استيراد شركات</DialogTitle>
         <DialogContent dividers>
           <input type="file" accept=".xlsx" onChange={(e) => { setImportFile(e.target.files?.[0] || null); setImportPreview(null); }} />
-          {importing && <Typography>\u062c\u0627\u0631\u064a \u0627\u0644\u0627\u0633\u062a\u064a\u0631\u0627\u062f...</Typography>}
+          {importing && <Typography>جاري الاستيراد...</Typography>}
           {importPreview && (
             <div data-testid="import-preview">
-              <Typography>\u0633\u064a\u062a\u0645 \u0625\u0636\u0627\u0641\u0629 {importPreview.added} \u0634\u0631\u0643\u0629</Typography>
-              <Typography>\u0633\u064a\u062a\u0645 \u062a\u062c\u0627\u0647\u0644 {importPreview.ignored} \u0634\u0631\u0643\u0629</Typography>
+              <Typography>سيتم إضافة {importPreview.added} شركة</Typography>
+              <Typography>سيتم تجاهل {importPreview.ignored} شركة</Typography>
             </div>
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => { setImportModalOpen(false); setImportPreview(null); setImportFile(null); }}>\u0625\u0644\u063a\u0627\u0621</Button>
+          <Button onClick={() => { setImportModalOpen(false); setImportPreview(null); setImportFile(null); }}>إلغاء</Button>
           {!importPreview ? (
             <Button onClick={() => handleImport(true)} variant="contained" disabled={!importFile || importing} data-testid="import-preview-btn">
-              \u0645\u0639\u0627\u064a\u0646\u0629
+              معاينة
             </Button>
           ) : (
             <Button onClick={() => handleImport(false)} variant="contained" color="primary" disabled={!importFile || importing} data-testid="import-confirm-btn">
-              \u062a\u0623\u0643\u064a\u062f
+              تأكيد
             </Button>
           )}
         </DialogActions>

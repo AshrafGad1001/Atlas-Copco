@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useEffect, useState } from "react";
 import { fetchApi } from "@/lib/api";
@@ -20,20 +19,20 @@ export default function EngineersTable() {
   useEffect(() => { loadData(); }, []);
 
   if (loading) return <Skeleton variant="rectangular" height={300} data-testid="engineers-table-loading" />;
-  if (error) return <Alert severity="error" action={<Button color="inherit" size="small" onClick={loadData}>????? ????????</Button>}>??? ???</Alert>;
-  if (!data || data.length === 0) return <Alert severity="info" data-testid="engineers-table-empty">?? ???? ???????</Alert>;
+  if (error) return <Alert severity="error" action={<Button color="inherit" size="small" onClick={loadData}>إعادة المحاولة</Button>}>حدث خطأ</Alert>;
+  if (!data || data.length === 0) return <Alert severity="info" data-testid="engineers-table-empty">لا يوجد مهندسون</Alert>;
 
   return (
     <TableContainer component={Paper} data-testid="engineers-table">
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>???????</TableCell>
-            <TableCell>???????</TableCell>
-            <TableCell>????????</TableCell>
-            <TableCell>??????</TableCell>
-            <TableCell>?????? ?????</TableCell>
-            <TableCell>??? ?????</TableCell>
+            <TableCell>المهندس</TableCell>
+            <TableCell>المنطقة</TableCell>
+            <TableCell>الموبايل</TableCell>
+            <TableCell>الحالة</TableCell>
+            <TableCell>زيارات الشهر</TableCell>
+            <TableCell>آخر زيارة</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -49,7 +48,7 @@ export default function EngineersTable() {
               <TableCell>
                 {e.primaryPhone ? <a href={`tel:${e.primaryPhone}`} onClick={ev => ev.stopPropagation()} dir="ltr">{e.primaryPhone}</a> : "-"}
               </TableCell>
-              <TableCell>{e.isActive ? "???" : "????"}</TableCell>
+              <TableCell>{e.isActive ? "نشط" : "معطل"}</TableCell>
               <TableCell>{e.visitsMonth}</TableCell>
               <TableCell>{e.lastVisitAt ? new Date(e.lastVisitAt).toLocaleDateString("ar-EG") : "-"}</TableCell>
             </TableRow>

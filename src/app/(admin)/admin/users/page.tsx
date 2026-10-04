@@ -40,10 +40,10 @@ export default function AdminUsersPage() {
       
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: "bold" }}>
-          ????? ?????????
+          إدارة المهندسين
         </Typography>
         <button onClick={() => setModalOpen(true)} style={{ padding: 10, background: "#1976d2", color: "white", border: "none", borderRadius: 4, cursor: "pointer" }}>
-          ????? ?????
+          إضافة مهندس
         </button>
       </div>
 
