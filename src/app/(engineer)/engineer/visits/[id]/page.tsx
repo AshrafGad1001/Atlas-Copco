@@ -1,6 +1,55 @@
+
 "use client";
-import { useParams } from "next/navigation";
-export default function VisitDetailsPage() {
+import React, { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { VisitDetails } from "@/components/visits/VisitDetails";
+
+export default function EngineerVisitDetailsPage() {
   const params = useParams();
-  return <div data-testid="visit-details">Visit {params.id}</div>;
+  const router = useRouter();
+  const [visit, setVisit] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchVisit();
+  }, [params.id]);
+
+  const fetchVisit = async () => {
+    try {
+      const res = await fetch(`/api/visits/${params.id}`);
+      const json = await res.json();
+      if (json.success) setVisit(json.data);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUpdate = async (data) => {
+    const res = await fetch(`/api/visits/${params.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    const json = await res.json();
+    if (!json.success) throw new Error(json.message);
+    setVisit(json.data);
+  };
+
+  const handleDelete = async () => {
+    const res = await fetch(`/api/visits/${params.id}`, { method: "DELETE" });
+    const json = await res.json();
+    if (!json.success) throw new Error(json.message);
+    router.push("/engineer/visits");
+  };
+
+  if (loading) return <div>???? ???????...</div>;
+  if (!visit) return <div>?? ??? ?????? ??? ???????</div>;
+
+  return (
+    <div className="max-w-4xl mx-auto py-6" data-testid="engineer-visit-page">
+      <VisitDetails visit={visit} onUpdate={handleUpdate} onDelete={handleDelete} isAdmin={false} />
+    </div>
+  );
 }
