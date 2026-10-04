@@ -41,8 +41,8 @@ test('Real cookie invalidated elsewhere hits login once', async ({ browser }) =>
   const ctxA = await browser.newContext();
   const pageA = await ctxA.newPage();
   await uiLogin(pageA, USER, PASS);
-  await expect(pageA).toHaveURL(/\/engineer\/profile/);
-  await expect(pageA.getByTestId('engineer-profile-page')).toBeVisible();
+  await expect(pageA).toHaveURL(/\/engineer/);
+  await expect(pageA.getByTestId('engineer-home-page')).toBeVisible();
 
   // Session B: same engineer changes password via API -> tokenVersion bump kills session A
   const ctxB = await browser.newContext();
@@ -67,7 +67,7 @@ test('Real cookie invalidated elsewhere hits login once', async ({ browser }) =>
   pageA.on('framenavigated', (frame) => {
     if (frame === pageA.mainFrame() && new URL(frame.url()).pathname === '/login') loginHits.push(frame.url());
   });
-  await pageA.goto('/engineer/profile');
+  await pageA.goto('/engineer');
   await pageA.waitForURL('**/login?session=expired');
   await pageA.waitForTimeout(3000);
   await expect(pageA).toHaveURL(/\/login\?session=expired/);

@@ -8,7 +8,7 @@ test.describe("Companies Module E2E", () => {
     await page.fill("input[type=\"text\"]", "visitEng");
     await page.fill("input[type=\"password\"]", "password@123");
     await page.click("button[type=\"submit\"]");
-    await expect(page).toHaveURL(/\/engineer\/profile/);
+    await expect(page).toHaveURL(/\/engineer/);
 
     await page.goto("/engineer/companies");
     
@@ -32,7 +32,7 @@ test.describe("Companies Module E2E", () => {
     await page.fill("input[type=\"text\"]", "visitEng");
     await page.fill("input[type=\"password\"]", "password@123");
     await page.click("button[type=\"submit\"]");
-    await expect(page).toHaveURL(/\/engineer\/profile/);
+    await expect(page).toHaveURL(/\/engineer/);
 
     await page.goto("/engineer/companies");
 

@@ -35,7 +35,7 @@ export default function EngineerHomePage() {
   };
 
   return (
-    <Box>
+    <Box data-testid="engineer-home-page">
       <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }} data-testid="engineer-greeting">
         مرحباً، {user?.fullName?.split(" ")[0] || "يا مهندس"}
       </Typography>

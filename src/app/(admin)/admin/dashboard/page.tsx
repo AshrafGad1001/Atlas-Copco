@@ -10,7 +10,7 @@ import EngineersTable from "@/components/dashboard/EngineersTable";
 
 export default function AdminDashboardPage() {
   return (
-    <Box sx={{ mt: { xs: 2, md: 0 } }}>
+    <Box sx={{ mt: { xs: 2, md: 0 } }} data-testid="admin-dashboard">
       <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: "bold", mb: 3 }}>
         لوحة التحكم
       </Typography>

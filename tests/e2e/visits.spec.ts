@@ -13,7 +13,7 @@ test.describe('Visits and Regions Isolation', () => {
     await page1.fill('input[type="text"]', 'visitEng');
     await page1.fill('input[type="password"]', 'password@123');
     await page1.click('button[type="submit"]');
-    await expect(page1).toHaveURL(/\/engineer\/profile/);
+    await expect(page1).toHaveURL(/\/engineer/);
     await page1.goto('http://localhost:3000/engineer/visits');
 
     // companyName is already defined at top as 'Test Company 1'
