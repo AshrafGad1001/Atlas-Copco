@@ -88,7 +88,7 @@ export default function CompanyHistoryPage() {
                           <Chip 
                             key={i} 
                             size="small" 
-                            label={`${attendee.name}${attendee.jobTitle ? ` (${attendee.jobTitle})` : ''}`} 
+                            label={<span>{attendee.name}{attendee.jobTitle ? ` (${attendee.jobTitle})` : ""}{attendee.phone && <a href={`tel:${attendee.phone}`} dir="ltr" style={{marginLeft: 8, textDecoration: "underline"}} onClick={e=>e.stopPropagation()}>{attendee.phone}</a>}</span>} 
                             variant="outlined" 
                           />
                         ))}

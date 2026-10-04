@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Typography, Card, CardContent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField } from "@mui/material";
 import { fetchApi } from "@/lib/api";
@@ -19,6 +20,7 @@ export function useDebouncedValue<T>(value: T, delay: number): T {
 }
 
 export default function EngineerCompaniesPage() {
+  const searchParams = useSearchParams();
   const [companies, setCompanies] = useState<any[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState<any>(null);

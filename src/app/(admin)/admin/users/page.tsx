@@ -1,5 +1,6 @@
 'use client';
 
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
@@ -14,17 +15,38 @@ import Paper from '@mui/material/Paper';
 import { fetchApi } from '@/lib/api';
 
 export default function AdminUsersPage() {
+  const searchParams = useSearchParams();
+  
   const [users, setUsers] = useState<any[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [search, setSearch] = useState("");
+
 
   useEffect(() => {
     fetchApi('/users').then(res => setUsers(res.data)).catch(console.error);
   }, []);
+  useEffect(() => {
+    if (searchParams?.get("new") === "1") {
+      setModalOpen(true);
+    }
+    if (searchParams?.get("search")) {
+      setSearch(searchParams.get("search") || "");
+    }
+  }, [searchParams]);
+
 
   return (
     <div>
-      <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
-        إدارة المستخدمين
-      </Typography>
+      
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: "bold" }}>
+          ????? ?????????
+        </Typography>
+        <button onClick={() => setModalOpen(true)} style={{ padding: 10, background: "#1976d2", color: "white", border: "none", borderRadius: 4, cursor: "pointer" }}>
+          ????? ?????
+        </button>
+      </div>
+
       <Card sx={{ mt: 3 }}>
         <CardContent>
           <TableContainer component={Paper} elevation={0} variant="outlined">

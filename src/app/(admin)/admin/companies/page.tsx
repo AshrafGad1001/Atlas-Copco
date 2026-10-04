@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Typography, Card, CardContent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField, Checkbox, Dialog, DialogTitle, DialogContent, DialogActions, MenuItem, Pagination, Select } from "@mui/material";
 import { fetchApi } from "@/lib/api";
@@ -8,6 +9,7 @@ import CompanyFormModal from "@/components/companies/CompanyFormModal";
 import { useDebouncedValue } from "@/app/(engineer)/engineer/companies/page"; // Exported from engineer page or move to hooks
 
 export default function AdminCompaniesPage() {
+  const searchParams = useSearchParams();
   const [companies, setCompanies] = useState<any[]>([]);
   const [regions, setRegions] = useState<any[]>([]);
   const [total, setTotal] = useState(0);
@@ -44,6 +46,15 @@ export default function AdminCompaniesPage() {
   useEffect(() => {
     fetchApi("/regions").then(res => setRegions(res.data)).catch(() => {});
   }, []);
+  useEffect(() => {
+    if (searchParams?.get("new") === "1") {
+      setModalOpen(true);
+    }
+    if (searchParams?.get("search")) {
+      setSearch(searchParams.get("search") || "");
+    }
+  }, [searchParams]);
+
 
   useEffect(() => {
     loadCompanies();

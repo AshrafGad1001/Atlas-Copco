@@ -27,12 +27,12 @@ export async function middleware(request: NextRequest) {
     if (pathname === '/login' && request.nextUrl.searchParams.get('session') === 'expired') return NextResponse.next();
     if (isPublicRoute) {
       if (role === 'admin') return NextResponse.redirect(new URL('/admin/dashboard', request.url));
-      if (role === 'engineer') return NextResponse.redirect(new URL('/engineer/profile', request.url));
+      if (role === 'engineer') return NextResponse.redirect(new URL('/engineer', request.url));
       return NextResponse.next();
     }
 
     if (pathname.startsWith('/admin') && role !== 'admin') {
-      return NextResponse.redirect(new URL('/engineer/profile', request.url));
+      return NextResponse.redirect(new URL('/engineer', request.url));
     }
 
     if (pathname.startsWith('/engineer') && role !== 'engineer') {

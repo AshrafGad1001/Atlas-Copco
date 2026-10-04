@@ -99,7 +99,7 @@ export function VisitDetails({ visit, onUpdate, onDelete, isAdmin }: VisitDetail
                 <div key={idx} className="bg-gray-50 p-3 rounded border">
                   <div className="font-medium text-gray-900">{att.name}</div>
                   {att.jobTitle && <div className="text-sm text-gray-500">{att.jobTitle}</div>}
-                  {att.phone && <div className="text-sm text-gray-500 dir-ltr text-right">{att.phone}</div>}
+                  {att.phone && <div className="text-sm text-gray-500"><a href={`tel:${att.phone}`} dir="ltr">{att.phone}</a></div>}
                 </div>
               ))}
             </div>

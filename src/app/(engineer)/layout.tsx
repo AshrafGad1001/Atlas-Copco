@@ -1,124 +1,77 @@
-'use client';
 
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MapIcon from '@mui/icons-material/Map';
-import HistoryIcon from '@mui/icons-material/History';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import PersonIcon from '@mui/icons-material/Person';
-import Skeleton from '@mui/material/Skeleton';
-import { useAuth } from '@/components/common/AuthProvider';
-import Link from 'next/link';
-
-const drawerWidth = 240;
+"use client";
+import React, { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { Box, BottomNavigation, BottomNavigationAction, Paper, AppBar, Toolbar, Typography, Skeleton } from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import MapIcon from "@mui/icons-material/Map";
+import BusinessIcon from "@mui/icons-material/Business";
+import PersonIcon from "@mui/icons-material/Person";
+import { useAuth } from "@/components/common/AuthProvider";
+import Link from "next/link";
 
 export default function EngineerLayout({ children }: { children: React.ReactNode }) {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const { user, loading, logout } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!loading) {
       if (!user) {
-        // Handled by AuthProvider
-      } else if (user.role !== 'engineer') {
-        router.replace('/admin/dashboard');
+        router.replace("/login");
+      } else if (user.role !== "engineer") {
+        router.replace("/admin/dashboard");
       }
     }
   }, [user, loading, router]);
 
-  if (loading || !user || user.role !== 'engineer') {
-    return (
-      <Box sx={{ display: 'flex', p: 3 }}>
-        <Skeleton variant="rectangular" width={240} height="100vh" sx={{ mr: 3, display: { xs: 'none', sm: 'block' } }} />
-        <Box sx={{ flexGrow: 1 }}>
-          <Skeleton variant="text" height={60} sx={{ mb: 2 }} />
-          <Skeleton variant="rectangular" height={200} />
-        </Box>
-      </Box>
-    );
+  if (loading || !user || user.role !== "engineer") {
+    return <Skeleton variant="rectangular" height="100vh" />;
   }
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+  const getNavValue = () => {
+    if (pathname.includes("/visits/new")) return 1;
+    if (pathname.includes("/visits")) return 2;
+    if (pathname.includes("/companies")) return 3;
+    if (pathname.includes("/profile")) return 4;
+    return 0;
   };
 
-  const drawer = (
-    <div>
-      <Toolbar>
-        <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-          أطلس كوبكو
-        </Typography>
-      </Toolbar>
-      <List>
-        <ListItem disablePadding>
-          <ListItemButton component={Link} href="/engineer/profile">
-            <ListItemIcon><PersonIcon /></ListItemIcon>
-            <ListItemText primary="الملف الشخصي" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton component={Link} href="/engineer/visits">
-            <ListItemIcon><MapIcon /></ListItemIcon>
-            <ListItemText primary="الزيارات والشركات" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton onClick={logout}>
-            <ListItemIcon><ExitToAppIcon /></ListItemIcon>
-            <ListItemText primary="تسجيل الخروج" />
-          </ListItemButton>
-        </ListItem>
-      </List>
-    </div>
-  );
-
   return (
-    <Box sx={{ display: 'flex' }}>
-      <AppBar position="fixed" sx={{ width: { sm: `calc(100% - ${drawerWidth}px)` }, ml: { sm: `${drawerWidth}px` }, bgcolor: 'white', color: 'text.primary', boxShadow: 1 }}>
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh", pb: 7 }}>
+      <AppBar position="sticky" color="inherit" elevation={1}>
         <Toolbar>
-          <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: 'none' } }}>
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            مرحباً بك، {user.fullName}
-          </Typography>
+          <Typography variant="h6" color="primary" sx={{ fontWeight: "bold" }}>???? ?????</Typography>
         </Toolbar>
       </AppBar>
-      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{ keepMounted: true }}
-          sx={{ display: { xs: 'block', sm: 'none' }, '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth } }}
-        >
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{ display: { xs: 'none', sm: 'block' }, '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth } }}
-          open
-        >
-          {drawer}
-        </Drawer>
-      </Box>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
-        <Toolbar />
+
+      <Box component="main" sx={{ flexGrow: 1, p: 2, bgcolor: "#f9f9f9" }}>
         {children}
       </Box>
+
+      <Paper sx={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 1000 }} elevation={3}>
+        <BottomNavigation
+          showLabels
+          value={getNavValue()}
+          sx={{
+            "& .Mui-selected": {
+              color: "primary.700",
+              bgcolor: "primary.50", // Closest to primary.100 that is safe, or we can use custom color
+            },
+            "& .MuiBottomNavigationAction-root": {
+              minWidth: "auto",
+              padding: "6px 0",
+            }
+          }}
+        >
+          <BottomNavigationAction component={Link} href="/engineer" label="????????" icon={<HomeIcon />} />
+          <BottomNavigationAction component={Link} href="/engineer/visits/new" label="????? ?????" icon={<AddBoxIcon />} />
+          <BottomNavigationAction component={Link} href="/engineer/visits" label="???????" icon={<MapIcon />} />
+          <BottomNavigationAction component={Link} href="/engineer/companies" label="???????" icon={<BusinessIcon />} />
+          <BottomNavigationAction component={Link} href="/engineer/profile" label="?????" icon={<PersonIcon />} />
+        </BottomNavigation>
+      </Paper>
     </Box>
   );
 }

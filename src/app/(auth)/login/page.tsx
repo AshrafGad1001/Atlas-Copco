@@ -55,7 +55,7 @@ function LoginForm() {
         if (res.data.role === 'admin') {
           router.push('/admin/dashboard');
         } else {
-          router.push('/engineer/profile');
+          router.push('/engineer');
         }
       }
     } catch (error: any) {
