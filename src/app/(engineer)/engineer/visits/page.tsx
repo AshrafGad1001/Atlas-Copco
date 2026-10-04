@@ -25,7 +25,7 @@ export default function EngineerVisitsPage() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    fetchApi('/visits').then(res => setVisits(res.data)).catch(console.error);
+    fetchApi("/visits/mine").then(res => setVisits(res.data)).catch(console.error);
   }, []);
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -71,8 +71,10 @@ export default function EngineerVisitsPage() {
               </TableHead>
               <TableBody>
                 {visits.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                  <TableRow key={row._id}>
-                    <TableCell>{new Date(row.visitDate).toLocaleDateString('ar-EG')}</TableCell>
+                  <TableRow key={row._id} hover onClick={() => window.location.href = `/engineer/visits/${row._id}`} style={{ cursor: "pointer" }}>
+                    <TableCell>
+                      {!row.canEdit && <span title="?? ???? ??????? (????? 24 ????)" style={{ marginRight: 8, fontSize: "12px" }}>??</span>}
+                      {new Date(row.visitDate).toLocaleDateString('ar-EG')}</TableCell>
                     <TableCell>{row.company?.name}</TableCell>
                     <TableCell>{row.company?.region?.name || 'غير محدد'}</TableCell>
                     <TableCell>
