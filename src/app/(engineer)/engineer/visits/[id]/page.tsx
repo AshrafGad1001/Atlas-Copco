@@ -26,7 +26,7 @@ export default function EngineerVisitDetailsPage() {
     }
   };
 
-  const handleUpdate = async (data) => {
+  const handleUpdate = async (data: any) => {
     const res = await fetch(`/api/visits/${params.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },

@@ -1,5 +1,5 @@
-import Link from "next/link";
 'use client';
+import Link from "next/link";
 
 import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';

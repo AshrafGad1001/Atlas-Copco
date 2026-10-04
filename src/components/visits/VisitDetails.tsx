@@ -2,7 +2,7 @@
 "use client";
 import React, { useState } from "react";
 import { VisitForm } from "./VisitForm";
-import { Button } from "@/components/common/Button";
+
 
 interface VisitDetailsProps {
   visit: any;
@@ -64,10 +64,10 @@ export function VisitDetails({ visit, onUpdate, onDelete, isAdmin }: VisitDetail
             {!visit.canEdit ? (
                <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded">????? ???? ??????? (24 ????)</span>
             ) : (
-               <Button variant="outline" onClick={() => setIsEditing(true)}>?????</Button>
+               <button className="px-4 py-2 border rounded hover:bg-gray-50" onClick={() => setIsEditing(true)}>?????</button>
             )}
             {visit.canDelete && (
-               <Button variant="danger" isLoading={isDeleting} onClick={handleDelete}>???</Button>
+               <button disabled={isDeleting} className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50" onClick={handleDelete}>???</button>
             )}
           </div>
         </div>

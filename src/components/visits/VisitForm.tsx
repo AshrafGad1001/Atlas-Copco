@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Plus, Trash2 } from "lucide-react";
-import { Button } from "@/components/common/Button";
+
+
 
 const attendeeSchema = z.object({
   name: z.string().min(2, "????? ????? (????? ??? ?????)"),
@@ -114,7 +114,7 @@ export function VisitForm({ initialData, onSubmit, isLoading }: VisitFormProps) 
               className="text-primary-600 flex items-center text-sm"
               data-testid="add-attendee-btn"
             >
-              <Plus size={16} className="mr-1" /> ????? ????
+              <span className="mr-1 font-bold">+</span> ????? ????
             </button>
           )}
         </div>
@@ -155,7 +155,7 @@ export function VisitForm({ initialData, onSubmit, isLoading }: VisitFormProps) 
                 className="text-red-500 p-2"
                 title="??? ??????"
               >
-                <Trash2 size={18} />
+                <span className="font-bold">X</span>
               </button>
             </div>
           </div>
@@ -163,9 +163,9 @@ export function VisitForm({ initialData, onSubmit, isLoading }: VisitFormProps) 
       </div>
 
       <div className="flex justify-end pt-4 border-t">
-        <Button type="submit" isLoading={isLoading} data-testid="visit-submit-btn">
+        <button type="submit" disabled={isLoading} className="px-4 py-2 bg-primary-600 text-white rounded hover:bg-primary-700 disabled:opacity-50" data-testid="visit-submit-btn">
           ??? ???????
-        </Button>
+        </button>
       </div>
     </form>
   );
