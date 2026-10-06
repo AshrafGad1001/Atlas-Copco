@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -105,13 +104,13 @@ export default function EngineersListPage() {
                 const primaryPhone = eng.phones?.find((p: any) => p.isPrimary)?.number || eng.phones?.[0]?.number;
                 return (
                   <TableRow key={eng._id}>
-                    <TableCell fontWeight="bold">{eng.fullName}</TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }}>{eng.fullName}</TableCell>
                     <TableCell>{eng.region?.name || "-"}</TableCell>
                     <TableCell>
                       {primaryPhone ? <a href={`tel:${primaryPhone}`} dir="ltr" style={{ color: '#1976d2', textDecoration: 'none' }}>{primaryPhone}</a> : "-"}
                     </TableCell>
                     <TableCell align="center">
-                      <Typography variant="body2" fontWeight="bold">{eng.monthVisits}</Typography>
+                      <Typography variant="body2" sx={{ fontWeight: "bold" }}>{eng.monthVisits}</Typography>
                     </TableCell>
                     <TableCell>{eng.lastVisit ? formatDateTime(eng.lastVisit) : "-"}</TableCell>
                     <TableCell align="center">

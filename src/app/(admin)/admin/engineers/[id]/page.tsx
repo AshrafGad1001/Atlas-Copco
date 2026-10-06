@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client";
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -76,8 +75,8 @@ export default function EngineerDetailsPage() {
     if (engineer) loadVisits();
   }, [visitType, visitFrom, visitTo]);
 
-  if (loading) return <Box p={4} display="flex" justifyContent="center"><CircularProgress /></Box>;
-  if (error) return <Box p={4}><Alert severity="error">{error}</Alert><Button onClick={loadData} sx={{ mt: 2 }}>إعادة المحاولة</Button></Box>;
+  if (loading) return <Box sx={{ p: 4, display: "flex", justifyContent: "center" }}><CircularProgress /></Box>;
+  if (error) return <Box sx={{ p: 4 }}><Alert severity="error">{error}</Alert><Button onClick={loadData} sx={{ mt: 2 }}>إعادة المحاولة</Button></Box>;
 
   return (
     <Box>
@@ -112,7 +111,7 @@ export default function EngineerDetailsPage() {
             { label: "تغطية آخر 30 يوم", value: `${stats.coveragePercent}% (${stats.visitedByHimLast30} شركة)` },
             { label: "آخر زيارة", value: stats.lastVisitAt ? formatDateTime(stats.lastVisitAt) : "لا يوجد" }
           ].map((s, i) => (
-            <Grid item xs={12} sm={6} md={4} key={i}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={i}>
               <Card variant="outlined" sx={{ height: "100%", bgcolor: "grey.50" }}>
                 <CardContent>
                   <Typography color="text.secondary" gutterBottom>{s.label}</Typography>
@@ -133,8 +132,8 @@ export default function EngineerDetailsPage() {
           <MenuItem value="completed">مكتملة</MenuItem>
           <MenuItem value="cancelled">ملغاة</MenuItem>
         </Select>
-        <TextField size="small" type="date" label="من" InputLabelProps={{ shrink: true }} value={visitFrom} onChange={(e) => setVisitFrom(e.target.value)} />
-        <TextField size="small" type="date" label="إلى" InputLabelProps={{ shrink: true }} value={visitTo} onChange={(e) => setVisitTo(e.target.value)} />
+        <TextField size="small" type="date" label="من" slotProps={{ inputLabel: { shrink: true } }} value={visitFrom} onChange={(e) => setVisitFrom(e.target.value)} />
+        <TextField size="small" type="date" label="إلى" slotProps={{ inputLabel: { shrink: true } }} value={visitTo} onChange={(e) => setVisitTo(e.target.value)} />
       </Box>
 
       <TableContainer component={Paper} variant="outlined" sx={{ mb: 4, overflowX: 'auto' }}>
