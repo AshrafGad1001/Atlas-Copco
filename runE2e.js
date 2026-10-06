@@ -70,9 +70,9 @@ const run = async () => {
         const reg1 = await Region.create({ name: "Region 1" });
         const reg2 = await Region.create({ name: "Region 2" });
         await User.create({ fullName: "Admin User", username: "admin", email: "admin@t.com", password: "Admin12345", role: "admin", phones: [{number: "01000000000"}] });
-        await User.create({ fullName: "Eng One", username: "ashraf123", email: "eng1@t.com", password: "Admin12345", role: "engineer", region: reg1._id, phones: [{number: "01011111111"}] });
-        await User.create({ fullName: "Visit Eng", username: "visiteng", email: "veng@t.com", password: "Admin12345", role: "engineer", region: reg1._id, phones: [{number: "01011111112"}] });
-        await User.create({ fullName: "Eng Two", username: "eng2", email: "eng2@t.com", password: "Admin12345", role: "engineer", region: reg2._id, phones: [{number: "01022222222"}] });
+        await User.create({ fullName: "Eng One", username: "ashraf123", email: "eng1@t.com", password: "password@123", role: "engineer", region: reg1._id, phones: [{number: "01011111111"}] });
+        await User.create({ fullName: "Visit Eng", username: "visiteng", email: "veng@t.com", password: "password@123", role: "engineer", region: reg1._id, phones: [{number: "01011111112"}] });
+        await User.create({ fullName: "Eng Two", username: "eng2", email: "eng2@t.com", password: "password@123", role: "engineer", region: reg2._id, phones: [{number: "01022222222"}] });
         const Company = require("../src/models/Company");
         await Company.create({ nameAr: "Test Company 1", nameEn: "Test Company 1", region: reg1._id, isClient: true });
         console.log("Seeded");
