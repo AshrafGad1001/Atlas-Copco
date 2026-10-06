@@ -7,6 +7,7 @@ import {
   Box, Card, CardContent, Typography, Grid, CircularProgress, Alert, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Chip, Select, MenuItem, TextField
 } from "@mui/material";
 
+import ExportButton from "@/components/common/ExportButton";
 export default function EngineerDetailsPage() {
   const { id } = useParams();
   const router = useRouter();
@@ -82,7 +83,7 @@ export default function EngineerDetailsPage() {
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
         <Typography variant="h4" fontWeight="bold">ملف المهندس</Typography>
         {/* Export Button Placeholder */}
-        <Box id="export-btn-placeholder"></Box>
+        <ExportButton url={`/reports/export-visits?engineer=${id}&type=${visitType}&from=${visitFrom}&to=${visitTo}`} />
       </Box>
 
       {/* Profile */}
