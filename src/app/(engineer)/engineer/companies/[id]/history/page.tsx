@@ -28,7 +28,7 @@ export default function CompanyHistoryPage() {
   useEffect(() => {
     if (id) {
       fetchApi(`/companies/${id}/history`)
-        .then(res => setData(res.data))
+        .then(res => setData({ company: res.company || { name: 'Unknown' }, visits: res.data || [] }))
         .catch(err => setError(err.message))
         .finally(() => setLoading(false));
     }
