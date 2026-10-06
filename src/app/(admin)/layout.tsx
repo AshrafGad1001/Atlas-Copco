@@ -19,6 +19,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import MapIcon from '@mui/icons-material/Map';
 import BusinessIcon from '@mui/icons-material/Business';
 import EventNoteIcon from '@mui/icons-material/EventNote';
+import GetAppIcon from "@mui/icons-material/GetApp";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import Skeleton from '@mui/material/Skeleton';
 import { useAuth } from '@/components/common/AuthProvider';
@@ -28,6 +29,24 @@ const drawerWidth = 240;
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
+
+  useEffect(() => {
+    const handler = (e: any) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstall = () => {
+    if (installPrompt) {
+      installPrompt.prompt();
+      installPrompt.userChoice.then(() => setInstallPrompt(null));
+    }
+  };
+
   const { user, loading, logout } = useAuth();
   const router = useRouter();
 
