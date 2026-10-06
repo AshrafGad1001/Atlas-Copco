@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
@@ -15,6 +15,8 @@ const visitSchema = z.object({
   type: z.enum(["planned", "completed", "cancelled"]),
   notes: z.string().optional(),
   nextStep: z.string().optional(),
+  hasFollowUp: z.boolean().optional(),
+  followUp: z.object({ dueDate: z.string().min(1, "التاريخ مطلوب"), note: z.string().max(200).optional() }).optional(),
   attendees: z.array(attendeeSchema).max(10, "أقصى عدد للحاضرين هو 10").optional(),
 });
 
@@ -36,10 +38,13 @@ export function VisitForm({ initialData, onSubmit, isLoading }: VisitFormProps) 
       type: initialData?.type || "completed",
       notes: initialData?.notes || "",
       nextStep: initialData?.nextStep || "",
+      hasFollowUp: !!initialData?.followUp?.dueDate,
+      followUp: initialData?.followUp ? { dueDate: initialData.followUp.dueDate.slice(0, 10), note: initialData.followUp.note || "" } : undefined,
       attendees: initialData?.attendees || [],
     },
   });
 
+  const hasFollowUp = useWatch({ control, name: "hasFollowUp" });
   const { fields, append, remove } = useFieldArray({
     control,
     name: "attendees",
