@@ -6,6 +6,7 @@ import { displayName } from "@/lib/helpers";
 import { formatDateTime } from "@/lib/helpers";
 import { Box, Card, CardContent, Typography, Button, Grid, Chip, Divider, List, ListItem, ListItemText, ListItemIcon } from "@mui/material";
 import PhoneIcon from "@mui/icons-material/Phone";
+import AddIcon from "@mui/icons-material/Add";
 import HistoryIcon from "@mui/icons-material/History";
 
 interface VisitDetailsProps {
