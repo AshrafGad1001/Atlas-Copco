@@ -1,14 +1,11 @@
-
 "use client";
 import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-
-
 const attendeeSchema = z.object({
-  name: z.string().min(2, "زيارة جديدة (اسم الحاضر مطلوب)"),
+  name: z.string().min(2, "اسم الحاضر مطلوب (حرفين على الأقل)"),
   jobTitle: z.string().optional(),
   phone: z.string().regex(/^[0-9+]{8,15}$/, "رقم الهاتف غير صالح").optional().or(z.literal("")),
 });
@@ -18,7 +15,7 @@ const visitSchema = z.object({
   type: z.enum(["planned", "completed", "cancelled"]),
   notes: z.string().optional(),
   nextStep: z.string().optional(),
-  attendees: z.array(attendeeSchema).max(10, "أقصى عدد للحاضرين هو 10 10 أقصى عدد للحاضرين هو 10").optional(),
+  attendees: z.array(attendeeSchema).max(10, "أقصى عدد للحاضرين هو 10").optional(),
 });
 
 type VisitFormValues = z.infer<typeof visitSchema>;
@@ -53,7 +50,7 @@ export function VisitForm({ initialData, onSubmit, isLoading }: VisitFormProps) 
     try {
       await onSubmit(data);
     } catch (err: any) {
-          <label className="block text-sm font-medium text-gray-700 mb-1">تاريخ الزيارة</label>
+      setErrorMsg(err.message || "حدث خطأ أثناء حفظ الزيارة");
     }
   };
 
@@ -63,7 +60,7 @@ export function VisitForm({ initialData, onSubmit, isLoading }: VisitFormProps) 
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">نوع الزيارة</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">تاريخ الزيارة</label>
           <input
             type="datetime-local"
             {...register("visitDate")}
@@ -74,18 +71,22 @@ export function VisitForm({ initialData, onSubmit, isLoading }: VisitFormProps) 
         </div>
 
         <div>
-              <option value="planned">مخطط لها</option>
-              <option value="completed">مكتملة</option>
-              <option value="cancelled">ملغاة</option>
+          <label className="block text-sm font-medium text-gray-700 mb-1">نوع الزيارة</label>
+          <select
+            {...register("type")}
+            className="w-full p-2 border rounded"
+            data-testid="visit-type-input"
+          >
+            <option value="planned">مخطط لها</option>
             <option value="completed">مكتملة</option>
-            <option value="cancelled">مكتملة</option>
+            <option value="cancelled">ملغاة</option>
           </select>
           {errors.type && <p className="text-red-500 text-xs mt-1">{errors.type.message}</p>}
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">??تعديل الزيارة??</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">ملاحظات</label>
         <textarea
           {...register("notes")}
           rows={3}
@@ -95,7 +96,7 @@ export function VisitForm({ initialData, onSubmit, isLoading }: VisitFormProps) 
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">?تاريخ الزيارة?</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">الخطوة القادمة</label>
         <textarea
           {...register("nextStep")}
           rows={2}
@@ -106,15 +107,15 @@ export function VisitForm({ initialData, onSubmit, isLoading }: VisitFormProps) 
 
       <div className="border-t pt-4">
         <div className="flex justify-between items-center mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">ملاحظات</label>
+          <h3 className="text-lg font-medium text-gray-900">الحاضرون</h3>
           {fields.length < 10 && (
             <button
               type="button"
               onClick={() => append({ name: "", jobTitle: "", phone: "" })}
-              className="text-primary-600 flex items-center text-sm"
+              className="text-blue-600 flex items-center text-sm font-medium hover:text-blue-800"
               data-testid="add-attendee-btn"
             >
-          <label className="block text-sm font-medium text-gray-700 mb-1">الخطوة القادمة</label>
+              + إضافة حاضر
             </button>
           )}
         </div>
@@ -122,9 +123,10 @@ export function VisitForm({ initialData, onSubmit, isLoading }: VisitFormProps) 
         {fields.map((field, index) => (
           <div key={field.id} className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-4 p-3 border rounded bg-gray-50">
             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">الاسم</label>
               <input
                 {...register(`attendees.${index}.name`)}
-            <h3 className="text-lg font-medium text-gray-900">الحاضرون</h3>
+                placeholder="الاسم"
                 className="w-full p-2 border rounded text-sm"
               />
               {errors.attendees?.[index]?.name && (
@@ -132,28 +134,29 @@ export function VisitForm({ initialData, onSubmit, isLoading }: VisitFormProps) 
               )}
             </div>
             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">المسمى الوظيفي</label>
               <input
                 {...register(`attendees.${index}.jobTitle`)}
-                <label className="block text-sm font-medium text-gray-700 mb-1">الاسم</label>
+                placeholder="المسمى الوظيفي"
                 className="w-full p-2 border rounded text-sm"
               />
             </div>
             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">رقم الهاتف</label>
               <input
                 {...register(`attendees.${index}.phone`)}
-                <label className="block text-sm font-medium text-gray-700 mb-1">المسمى الوظيفي</label>
+                placeholder="رقم الهاتف"
                 className="w-full p-2 border rounded text-sm"
               />
               {errors.attendees?.[index]?.phone && (
                 <p className="text-red-500 text-xs mt-1">{errors.attendees[index]?.phone?.message}</p>
               )}
             </div>
-            <div className="flex items-center justify-end">
+            <div className="flex items-end pb-1 justify-end">
               <button
                 type="button"
                 onClick={() => remove(index)}
-                className="text-red-500 p-2"
-                <label className="block text-sm font-medium text-gray-700 mb-1">رقم الهاتف</label>
+                className="text-red-500 p-2 hover:bg-red-100 rounded"
               >
                 <span className="font-bold">X</span>
               </button>
@@ -163,11 +166,10 @@ export function VisitForm({ initialData, onSubmit, isLoading }: VisitFormProps) 
       </div>
 
       <div className="flex justify-end pt-4 border-t">
-        <button type="submit" disabled={isLoading} className="px-4 py-2 bg-primary-600 text-white rounded hover:bg-primary-700 disabled:opacity-50" data-testid="visit-submit-btn">
-        <button type="button" onClick={() => append({ name: "", jobTitle: "", phone: "" })} className="mt-2 text-sm text-blue-600 hover:text-blue-800 font-medium">+ إضافة حاضر</button>
+        <button type="submit" disabled={isLoading} className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50" data-testid="visit-submit-btn">
+          {isLoading ? "جاري الحفظ..." : "حفظ الزيارة"}
         </button>
       </div>
     </form>
   );
 }
-          {isLoading ? "جاري الحفظ..." : "حفظ الزيارة"}

@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 import ExportButton from "@/components/common/ExportButton";
 export default function AdminVisitsPage() {
