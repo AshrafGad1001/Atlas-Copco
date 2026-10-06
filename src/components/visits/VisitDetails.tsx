@@ -1,10 +1,11 @@
-
 "use client";
 import React, { useState } from "react";
 import { VisitForm } from "./VisitForm";
 import { displayName } from "@/lib/helpers";
-import { formatDateTime, formatDate } from "@/lib/helpers";
-
+import { formatDateTime } from "@/lib/helpers";
+import { Box, Card, CardContent, Typography, Button, Grid, Chip, Divider, List, ListItem, ListItemText, ListItemIcon } from "@mui/material";
+import PhoneIcon from "@mui/icons-material/Phone";
+import HistoryIcon from "@mui/icons-material/History";
 
 interface VisitDetailsProps {
   visit: any;
@@ -30,107 +31,138 @@ export function VisitDetails({ visit, onUpdate, onDelete, isAdmin }: VisitDetail
   };
 
   const handleUpdate = async (data: any) => {
-    try {
-      await onUpdate(data);
-      setIsEditing(false);
-    } catch (err: any) {
-      throw err;
-    }
+    await onUpdate(data);
+    setIsEditing(false);
   };
 
   if (isEditing) {
     return (
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-        <h2 className="text-xl font-semibold mb-6">تفاصيل الزيارة</h2>
-        <VisitForm initialData={visit} onSubmit={handleUpdate} />
-        <div className="mt-4">
-          <button onClick={() => setIsEditing(false)} className="text-gray-500 underline text-sm">
-            تفاصيل الزيارة
-          </button>
-        </div>
-      </div>
+      <Card variant="outlined">
+        <CardContent>
+          <Typography variant="h6" gutterBottom>تعديل الزيارة</Typography>
+          <VisitForm initialData={visit} onSubmit={handleUpdate} />
+          <Box mt={2}>
+            <Button onClick={() => setIsEditing(false)} color="inherit">
+              إلغاء التعديل
+            </Button>
+          </Box>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <div className="space-y-6">
-      {errorMsg && <div className="p-3 bg-red-100 text-red-700 rounded text-sm">{errorMsg}</div>}
+    <Card variant="outlined" sx={{ p: 2 }}>
+      {errorMsg && <Box mb={2} p={1.5} bgcolor="error.light" color="error.contrastText" borderRadius={1}>{errorMsg}</Box>}
       
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-        <div className="flex justify-between items-start mb-6">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800">{displayName(visit.company)}</h2>
-            <p className="text-gray-500 mt-1">المهندس المسؤول: {visit.engineer?.fullName}</p>
-          </div>
-          <div className="flex space-x-2 space-x-reverse">
-            {!visit.canEdit ? (
-               <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded">لا يمكن تعديل الزيارة (انقضت 24 ساعة) (24 لا يمكن تعديل الزيارة (انقضت 24 ساعة))</span>
-            ) : (
-               <button className="px-4 py-2 border rounded hover:bg-gray-50" onClick={() => setIsEditing(true)}>مكتملة</button>
-            )}
-            {visit.canDelete && (
-               <button disabled={isDeleting} className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50" onClick={handleDelete}>حذف</button>
-            )}
-          </div>
-        </div>
+      <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={3} borderBottom="1px solid #eee" pb={2}>
+        <Box>
+          <Typography variant="h5" fontWeight="bold" color="text.primary">
+            {displayName(visit.company)}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" mt={0.5}>
+            المهندس المسؤول: {visit.engineer?.fullName}
+          </Typography>
+        </Box>
+        <Box display="flex" gap={1}>
+          {!visit.canEdit ? (
+             <Chip label="لا يمكن تعديل الزيارة (انقضت 24 ساعة)" size="small" variant="outlined" />
+          ) : (
+             <Button variant="outlined" color="primary" onClick={() => setIsEditing(true)}>تعديل</Button>
+          )}
+          {visit.canDelete && (
+             <Button variant="contained" color="error" disabled={isDeleting} onClick={handleDelete}>حذف</Button>
+          )}
+        </Box>
+      </Box>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">تفاصيل الزيارة</h3>
-            <div className="space-y-3">
-              <div><span className="text-gray-500 w-24 inline-block">التاريخ:</span> {formatDateTime(visit.visitDate)}</div>
-              <div><span className="text-gray-500 w-24 inline-block">النوع:</span> {visit.type === "planned" ? "مخطط لها" : visit.type === "completed" ? "مكتملة" : "ملغاة"}</div>
-              <div><span className="text-gray-500 w-24 inline-block">المنطقة:</span> {visit.company?.region?.name || "غير محدد"}</div>
-            </div>
-          </div>
-          
-          <div>
-            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">تفاصيل المتابعة</h3>
-            <div className="space-y-3">
-              <div><strong className="block text-gray-700">ملاحظات:</strong> <p className="text-gray-600 mt-1 whitespace-pre-wrap">{visit.notes || "ملاحظات"}</p></div>
-              <div><strong className="block text-gray-700">الخطوة القادمة:</strong> <p className="text-gray-600 mt-1 whitespace-pre-wrap">{visit.nextStep || "الخطوة القادمة"}</p></div>
-            </div>
-          </div>
-        </div>
+      <Grid container spacing={4}>
+        <Grid item xs={12} md={6}>
+          <Typography variant="subtitle2" color="text.secondary" gutterBottom>تفاصيل الزيارة</Typography>
+          <Box display="flex" flexDirection="column" gap={1} mb={2}>
+            <Box display="flex"><Typography variant="body2" color="text.secondary" width={100}>التاريخ:</Typography> <Typography variant="body2" fontWeight="medium">{formatDateTime(visit.visitDate)}</Typography></Box>
+            <Box display="flex">
+              <Typography variant="body2" color="text.secondary" width={100}>النوع:</Typography> 
+              <Chip 
+                size="small" 
+                label={visit.type === "planned" ? "مخطط لها" : visit.type === "completed" ? "مكتملة" : "ملغاة"} 
+                color={visit.type === "planned" ? "warning" : visit.type === "completed" ? "success" : "error"} 
+              />
+            </Box>
+            <Box display="flex"><Typography variant="body2" color="text.secondary" width={100}>المنطقة:</Typography> <Typography variant="body2" fontWeight="medium">{visit.company?.region?.name || "غير محدد"}</Typography></Box>
+          </Box>
+        </Grid>
+        
+        <Grid item xs={12} md={6}>
+          <Typography variant="subtitle2" color="text.secondary" gutterBottom>تفاصيل المتابعة</Typography>
+          <Box display="flex" flexDirection="column" gap={2}>
+            <Box>
+              <Typography variant="body2" color="text.secondary" gutterBottom>ملاحظات:</Typography> 
+              <Box p={1.5} bgcolor="grey.50" border="1px solid #eee" borderRadius={1} minHeight={60}>
+                <Typography variant="body2">{visit.notes || "لا يوجد ملاحظات"}</Typography>
+              </Box>
+            </Box>
+            <Box>
+              <Typography variant="body2" color="text.secondary" gutterBottom>الخطوة القادمة:</Typography> 
+              <Box p={1.5} bgcolor="grey.50" border="1px solid #eee" borderRadius={1} minHeight={60}>
+                <Typography variant="body2">{visit.nextStep || "لم يتم التحديد"}</Typography>
+              </Box>
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
 
-        {visit.attendees && visit.attendees.length > 0 && (
-          <div className="mt-8 pt-6 border-t border-gray-100">
-            <h3 className="text-lg font-semibold mb-4">الحاضرون في الزيارة</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {visit.attendees.map((att: any, idx: number) => (
-                <div key={idx} className="bg-gray-50 p-3 rounded border">
-                  <div className="font-medium text-gray-900">{att.name}</div>
-                  {att.jobTitle && <div className="text-sm text-gray-500">{att.jobTitle}</div>}
-                  {att.phone && <div className="text-sm text-gray-500"><a href={`tel:${att.phone}`} dir="ltr">{att.phone}</a></div>}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+      {visit.attendees && visit.attendees.length > 0 && (
+        <Box mt={4} pt={3} borderTop="1px solid #eee">
+          <Typography variant="h6" gutterBottom>الحاضرون في الزيارة</Typography>
+          <Grid container spacing={2}>
+            {visit.attendees.map((att: any, idx: number) => (
+              <Grid item xs={12} sm={6} md={4} key={idx}>
+                <Card variant="outlined" sx={{ height: '100%', display: 'flex', flexDirection: 'column', p: 2 }}>
+                  <Typography variant="subtitle1" fontWeight="bold">{att.name}</Typography>
+                  {att.jobTitle && <Typography variant="body2" color="text.secondary" mb={1}>{att.jobTitle}</Typography>}
+                  {att.phone && (
+                    <Box mt="auto" pt={1.5} borderTop="1px solid #eee">
+                      <Box display="flex" alignItems="center" component="a" href={`tel:${att.phone}`} sx={{ textDecoration: 'none', color: 'primary.main', '&:hover': { textDecoration: 'underline' } }} dir="ltr">
+                        <PhoneIcon fontSize="small" sx={{ ml: 1 }} />
+                        <Typography variant="body2">{att.phone}</Typography>
+                      </Box>
+                    </Box>
+                  )}
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      )}
 
       {isAdmin && visit.editHistory && visit.editHistory.length > 0 && (
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold mb-4">سجل التعديلات</h3>
-          <div className="space-y-4">
+        <Box mt={4} p={3} bgcolor="grey.50" borderRadius={1} border="1px solid #eee">
+          <Box display="flex" alignItems="center" mb={2}>
+            <HistoryIcon sx={{ ml: 1, color: 'text.secondary' }} />
+            <Typography variant="h6">سجل التعديلات</Typography>
+          </Box>
+          <List disablePadding>
             {visit.editHistory.map((history: any, idx: number) => (
-              <div key={idx} className="pb-4 border-b border-gray-100 last:border-0 last:pb-0">
-                <div className="text-sm text-gray-500 mb-2">
-                  تم التعديل بواسطة <span className="font-semibold text-gray-700">{history.editedBy?.fullName || "مجهول"}</span> بتاريخ {formatDateTime(history.editedAt)}
-                </div>
-                <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
-                  {history.changes.map((c: any, cidx: number) => (
-                    <li key={cidx}>
-                    تغير <span className="font-semibold">{c.field}</span> من <span className="line-through bg-red-50 text-red-700 px-1 rounded">{c.from}</span> إلى <span className="bg-green-50 text-green-700 px-1 rounded">{c.to}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <React.Fragment key={idx}>
+                <ListItem sx={{ px: 0, py: 1, flexDirection: 'column', alignItems: 'flex-start' }}>
+                  <Typography variant="body2" color="text.secondary" mb={1}>
+                    تم التعديل بواسطة <strong>{history.editedBy?.fullName || "مجهول"}</strong> بتاريخ {formatDateTime(history.editedAt)}
+                  </Typography>
+                  <Box display="flex" flexDirection="column" gap={0.5} pl={2}>
+                    {history.changes.map((c: any, cidx: number) => (
+                      <Typography variant="body2" key={cidx}>
+                        • تغيير <strong>{c.field}</strong> من <Chip size="small" label={c.from || 'فارغ'} sx={{ mx: 0.5, bgcolor: 'error.50', color: 'error.main' }} /> إلى <Chip size="small" label={c.to || 'فارغ'} sx={{ mx: 0.5, bgcolor: 'success.50', color: 'success.main' }} />
+                      </Typography>
+                    ))}
+                  </Box>
+                </ListItem>
+                {idx < visit.editHistory.length - 1 && <Divider />}
+              </React.Fragment>
             ))}
-          </div>
-        </div>
+          </List>
+        </Box>
       )}
-    </div>
+    </Card>
   );
 }
-
