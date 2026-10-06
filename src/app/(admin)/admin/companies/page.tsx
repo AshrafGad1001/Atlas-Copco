@@ -161,7 +161,7 @@ export default function AdminCompaniesPage() {
 
       {selectedIds.length > 1 && (
         <div style={{ marginBottom: 16 }}>
-          <Button variant="contained" color="warning" onClick={() => setMergeModalOpen(true)}>
+          <Button variant="contained" color="warning" onClick={() => setMergeModalOpen(true)} data-testid="merge-company-btn">
             دمج الشركات المحددة ({selectedIds.length})
           </Button>
         </div>
@@ -226,7 +226,7 @@ export default function AdminCompaniesPage() {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setMergeModalOpen(false)}>إلغاء</Button>
-          <Button onClick={handleMerge} variant="contained" color="warning" disabled={!targetMergeId}>
+          <Button onClick={handleMerge} variant="contained" color="warning" disabled={!targetMergeId} data-testid="confirm-merge-btn">
             دمج
           </Button>
         </DialogActions>

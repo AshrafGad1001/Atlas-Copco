@@ -45,7 +45,7 @@ export default function EngineerVisitDetailsPage() {
   };
 
   if (loading) return <div>جاري التحميل...</div>;
-  if (!visit) return <div>?? لم يتم العثور على الزيارة</div>;
+  if (!visit) return <div>لم يتم العثور على الزيارة</div>;
 
   return (
     <div className="max-w-4xl mx-auto py-6" data-testid="engineer-visit-page">

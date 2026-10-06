@@ -51,7 +51,7 @@ export default function EngineerVisitsPage() {
         <Button 
           variant="outlined" 
           startIcon={<DownloadIcon />}
-          onClick={handleExport}
+          onClick={handleExport} data-testid="export-csv-btn"
         >
           تصدير Excel
         </Button>
@@ -74,7 +74,7 @@ export default function EngineerVisitsPage() {
                 {visits.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                   <TableRow key={row._id} hover onClick={() => window.location.href = `/engineer/visits/${row._id}`} style={{ cursor: "pointer" }}>
                     <TableCell>
-                      {!row.canEdit && <span title="?? لا توجد زيارات (لا توجد زيارات 24 لا توجد زيارات)" style={{ marginRight: 8, fontSize: "12px" }}>??</span>}
+                      {!row.canEdit && <span title="لا يمكن التعديل (انقضت 24 ساعة)" style={{ marginRight: 8, fontSize: "12px" }}>&times;</span>}
                       {formatDate(row.visitDate)}</TableCell>
                     <TableCell>{row.company?.name}</TableCell>
                     <TableCell>{row.company?.region?.name || 'غير محدد'}</TableCell>

@@ -1,6 +1,5 @@
-
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Box, BottomNavigation, BottomNavigationAction, Paper, AppBar, Toolbar, Typography, Skeleton } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
@@ -51,18 +50,12 @@ export default function EngineerLayout({ children }: { children: React.ReactNode
       </Box>
 
       <Paper sx={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 1000 }} elevation={3}>
-        <BottomNavigation showLabels value={value} onChange={(e, v) => setValue(v)}>
+        <BottomNavigation showLabels value={getNavValue()}>
           <BottomNavigationAction component={Link} href="/engineer" label="الرئيسية" icon={<HomeIcon />} />
           <BottomNavigationAction component={Link} href="/engineer/visits/new" label="زيارة جديدة" icon={<AddBoxIcon />} />
           <BottomNavigationAction component={Link} href="/engineer/visits" label="الزيارات" icon={<MapIcon />} />
           <BottomNavigationAction component={Link} href="/engineer/companies" label="الشركات" icon={<BusinessIcon />} />
           <BottomNavigationAction component={Link} href="/engineer/profile" label="حسابي" icon={<PersonIcon />} />
-
-          } />
-          } />
-          } />
-          } />
-          } />
         </BottomNavigation>
       </Paper>
     </Box>

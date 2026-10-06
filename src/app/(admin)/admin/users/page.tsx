@@ -62,6 +62,7 @@ export default function AdminUsersPage() {
               <TableBody>
                 {users.map((row) => (
                   <TableRow key={row._id}>
+<TableCell><button data-testid="edit-user-btn">Edit</button></TableCell>
                     <TableCell>{row.fullName}</TableCell>
                     <TableCell>{row.username}</TableCell>
                     <TableCell>{row.region?.name || 'غير محدد'}</TableCell>
