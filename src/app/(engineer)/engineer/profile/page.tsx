@@ -14,7 +14,7 @@ export default function EngineerProfilePage() {
   const { user, logout } = useAuth();
   const [profile, setProfile] = React.useState<any>(null);
   React.useEffect(() => {
-    fetchApi("/profile/me").then(res => setProfile(res.data)).catch(console.error);
+    fetchApi("/auth/me").then(res => setProfile(res.data)).catch(console.error);
   }, []);
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
