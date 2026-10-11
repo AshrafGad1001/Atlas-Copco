@@ -61,11 +61,15 @@ const run = async () => {
       if (line.startsWith("MONGO_URI=") && !mainUri) mainUri = line.substring(line.indexOf("=") + 1).trim();
     });
     
+    const e2eUri = testUri.replace(/\/([^\/?]+)(\?|$)/, (m, db, q) => '/' + db + '_e2e' + q);
+    const { assertSafeTestUri } = require("../atlas-copco-backend/tests/testGuard");
+    assertSafeTestUri(e2eUri, mainUri);
+
     const seeder = `
       const mongoose = require("mongoose");
       const User = require("../src/models/User");
       const Region = require("../src/models/Region");
-      mongoose.connect("${testUri}").then(async () => {
+      mongoose.connect("${e2eUri}").then(async () => {
         await mongoose.connection.db.dropDatabase();
         const reg1 = await Region.create({ name: "Region 1" });
         const reg2 = await Region.create({ name: "Region 2" });
@@ -88,7 +92,7 @@ const run = async () => {
     console.log("Starting Backend...");
     backend = spawn("node", ["server.js"], { 
       cwd: "../atlas-copco-backend",
-      env: { ...process.env, MONGO_URI: testUri, PORT: "5000", NODE_ENV: "test" },
+      env: { ...process.env, MONGO_URI: e2eUri, PORT: "5000", NODE_ENV: "test" },
       shell: true,
       stdio: "ignore"
     });
