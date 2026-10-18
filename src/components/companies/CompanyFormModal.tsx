@@ -164,7 +164,16 @@ export default function CompanyFormModal({ open, onClose, onSuccess, initialData
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setSimilarConfirm({show: false, payload: null, similarName: ""})}>إلغاء</Button>
-          <Button onClick={() => onSubmit(similarConfirm.payload, true)} variant="contained" color="primary" data-testid="similar-confirm">
+          <Button 
+            onClick={() => {
+              const p = similarConfirm.payload;
+              setSimilarConfirm({show: false, payload: null, similarName: ""});
+              onSubmit(p, true);
+            }} 
+            variant="contained" 
+            color="primary" 
+            data-testid="similar-confirm"
+          >
             متأكد
           </Button>
         </DialogActions>

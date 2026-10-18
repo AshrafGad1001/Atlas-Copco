@@ -33,12 +33,27 @@ export default function EngineerHomePage() {
     e.preventDefault();
     if (search.trim()) router.push(`/engineer/companies?search=${search.trim()}`);
   };
+  const handleExportCsv = () => {
+    const csvContent = "data:text/csv;charset=utf-8,Date,Company,Status,Notes\n";
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `visits_${Date.now()}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <Box data-testid="engineer-home-page">
-      <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }} data-testid="engineer-greeting">
-        مرحباً، {user?.fullName?.split(" ")[0] || "يا مهندس"}
-      </Typography>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+        <Typography variant="h5" sx={{ fontWeight: "bold" }} data-testid="engineer-greeting">
+          مرحباً، {user?.fullName?.split(" ")[0] || "يا مهندس"}
+        </Typography>
+        <Button variant="outlined" size="small" onClick={handleExportCsv} data-testid="export-csv-btn">
+          تصدير CSV
+        </Button>
+      </Box>
 
       <Grid container spacing={2} sx={{ mb: 4 }}>
         <Grid size={{xs: 6}}>
