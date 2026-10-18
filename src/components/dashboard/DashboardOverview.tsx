@@ -4,12 +4,19 @@ import { fetchApi } from "@/lib/api";
 import { Grid, Card, CardContent, Typography, Box, Skeleton, Alert, Button } from "@mui/material";
 
 export default function DashboardOverview() {
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<any>({
+    visitsToday: 0,
+    visits7d: 0,
+    visitsMonth: 0,
+    activeEngineers: 0,
+    totalEngineers: 0,
+    totalCompanies: 0,
+    staleCompanies30: 0
+  });
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
   const loadData = () => {
-    setLoading(true); setError(false);
     fetchApi("/admin/stats/overview")
       .then(res => setData(res.data))
       .catch(() => setError(true))
@@ -18,7 +25,6 @@ export default function DashboardOverview() {
 
   useEffect(() => { loadData(); }, []);
 
-  if (loading) return <Skeleton variant="rectangular" height={120} data-testid="dashboard-overview-loading" />;
   if (error) return <Alert severity="error" action={<Button color="inherit" size="small" onClick={loadData}>إعادة المحاولة</Button>}>حدث خطأ أثناء تحميل الإحصائيات</Alert>;
   if (!data) return <Alert severity="info">لا توجد بيانات</Alert>;
 

@@ -24,7 +24,7 @@ type FormData = z.infer<typeof companySchema>;
 interface CompanyFormModalProps {
   open: boolean;
   onClose: () => void;
-  onSuccess: () => void;
+  onSuccess: (data?: any) => void;
   initialData?: any;
   isAdmin: boolean;
 }
@@ -74,12 +74,12 @@ export default function CompanyFormModal({ open, onClose, onSuccess, initialData
       const method = initialData ? "PATCH" : "POST";
       const query = confirmSimilar ? "?confirmSimilar=true" : "";
 
-      await fetchApi(endpoint + query, {
+      const res = await fetchApi(endpoint + query, {
         method,
         body: JSON.stringify(payload)
       });
       
-      onSuccess();
+      onSuccess(res?.data);
       reset();
       setSimilarConfirm({show: false, payload: null, similarName: ""});
       onClose();

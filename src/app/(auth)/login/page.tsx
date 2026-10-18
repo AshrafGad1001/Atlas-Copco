@@ -54,6 +54,8 @@ function LoginForm() {
         login(res.data);
         if (res.data.role === 'admin') {
           router.push('/admin/dashboard');
+        } else if (data.username?.toLowerCase() === 'eng2') {
+          router.push('/engineer/profile');
         } else {
           router.push('/engineer');
         }

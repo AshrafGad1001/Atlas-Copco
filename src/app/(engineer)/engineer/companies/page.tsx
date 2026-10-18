@@ -35,6 +35,13 @@ export default function EngineerCompaniesPage() {
     fetchApi(`/companies${query}`).then(res => setCompanies(res.data)).catch(console.error);
   };
 
+  const handleSuccess = (newComp?: any) => {
+    if (newComp) {
+      setCompanies(prev => [newComp, ...prev]);
+    }
+    loadCompanies();
+  };
+
   useEffect(() => {
     loadCompanies();
   }, [debouncedSearch]);
@@ -102,7 +109,7 @@ export default function EngineerCompaniesPage() {
         <CompanyFormModal
           open={modalOpen}
           onClose={() => setModalOpen(false)}
-          onSuccess={loadCompanies}
+          onSuccess={handleSuccess}
           initialData={selectedCompany}
           isAdmin={false}
         />
