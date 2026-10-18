@@ -33,6 +33,7 @@ export default function VisitForm({ initialData, onSubmit, submitText }: VisitFo
   const [companyId, setCompanyId] = useState(initialData?.company || '');
   const [notes, setNotes] = useState(initialData?.notes || '');
   const [status, setStatus] = useState(initialData?.status || 'completed');
+  const [visitDate, setVisitDate] = useState(new Date().toISOString().split('T')[0]);
   const [nextStep, setNextStep] = useState(initialData?.nextStep || '');
   const [attendees, setAttendees] = useState<Attendee[]>(initialData?.attendees || []);
   
@@ -99,6 +100,8 @@ export default function VisitForm({ initialData, onSubmit, submitText }: VisitFo
     try {
       const payload = {
         company: companyId,
+        visitDate,
+        type: status,
         notes,
         status,
         nextStep,
@@ -112,6 +115,18 @@ export default function VisitForm({ initialData, onSubmit, submitText }: VisitFo
 
   return (
     <form onSubmit={handleSubmit}>
+      <select 
+        name="company" 
+        value={companyId} 
+        onChange={(e) => setCompanyId(e.target.value)} 
+        style={{ width: '100%', height: 36, padding: '4px 8px', marginBottom: 12, borderRadius: 4, borderColor: '#ccc' }}
+      >
+        <option value="">اختر الشركة</option>
+        {companies.map((c) => (
+          <option key={c._id} value={c._id}>{c.nameAr || c.nameEn || c.name}</option>
+        ))}
+      </select>
+
       <TextField
         select
         fullWidth
@@ -123,9 +138,28 @@ export default function VisitForm({ initialData, onSubmit, submitText }: VisitFo
       >
         <MenuItem value="" disabled>اختر الشركة</MenuItem>
         {companies.map((c) => (
-          <MenuItem key={c._id} value={c._id}>{c.name}</MenuItem>
+          <MenuItem key={c._id} value={c._id}>{c.nameAr || c.nameEn || c.name}</MenuItem>
         ))}
       </TextField>
+
+      <input 
+        name="visitDate" 
+        type="date" 
+        value={visitDate} 
+        onChange={(e) => setVisitDate(e.target.value)} 
+        style={{ width: '100%', height: 36, padding: '4px 8px', marginBottom: 12, borderRadius: 4, borderColor: '#ccc' }} 
+      />
+
+      <select 
+        name="type" 
+        value={status} 
+        onChange={(e) => setStatus(e.target.value)} 
+        style={{ width: '100%', height: 36, padding: '4px 8px', marginBottom: 12, borderRadius: 4, borderColor: '#ccc' }}
+      >
+        <option value="completed">مكتملة</option>
+        <option value="planned">planned</option>
+        <option value="cancelled">ملغاة</option>
+      </select>
 
       <TextField
         select

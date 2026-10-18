@@ -61,7 +61,9 @@ export default function EngineerHomePage() {
       </Box>
 
       {loading ? <Skeleton variant="rectangular" height={100} sx={{ mb: 4 }} /> : summary && (
-        <Grid container spacing={2} sx={{ mb: 4 }} data-testid="engineer-summary">
+        <Box sx={{ mb: 4 }}>
+          <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>ملخص الزيارات</Typography>
+          <Grid container spacing={2} data-testid="engineer-summary">
           <Grid size={{xs: 6}}>
             <Card sx={{ bgcolor: "primary.50" }}>
               <CardContent sx={{ textAlign: "center" }}>
@@ -79,6 +81,7 @@ export default function EngineerHomePage() {
             </Card>
           </Grid>
         </Grid>
+      </Box>
       )}
 
       <Typography variant="h6" gutterBottom>آخر 5 زيارات</Typography>

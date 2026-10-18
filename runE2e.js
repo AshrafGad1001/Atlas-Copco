@@ -77,6 +77,7 @@ const run = async () => {
         await User.create({ fullName: "Eng One", username: "ashraf123", email: "eng1@t.com", password: "password@123", role: "engineer", region: reg1._id, phones: [{number: "01011111111"}] });
         await User.create({ fullName: "Visit Eng", username: "visiteng", email: "veng@t.com", password: "password@123", role: "engineer", region: reg1._id, phones: [{number: "01011111112"}] });
         await User.create({ fullName: "Eng Two", username: "eng2", email: "eng2@t.com", password: "password@123", role: "engineer", region: reg2._id, phones: [{number: "01022222222"}] });
+        await User.create({ fullName: "Eng A", username: "enga", email: "enga@t.com", password: "password123", role: "engineer", region: reg1._id, phones: [{number: "01011111113"}] });
         const Company = require("../src/models/Company");
         await Company.create({ nameAr: "Test Company 1", nameEn: "Test Company 1", region: reg1._id, isClient: true });
         console.log("Seeded");
@@ -92,9 +93,9 @@ const run = async () => {
     console.log("Starting Backend...");
     backend = spawn("node", ["server.js"], { 
       cwd: "../atlas-copco-backend",
-      env: { ...process.env, MONGO_URI: e2eUri, PORT: "5000", NODE_ENV: "test" },
+      env: { ...process.env, MONGO_URI: e2eUri, MONGO_URI_TEST: e2eUri, PORT: "5000", NODE_ENV: "test" },
       shell: true,
-      stdio: "ignore"
+      stdio: "inherit"
     });
 
     console.log("Starting Frontend...");
@@ -102,12 +103,12 @@ const run = async () => {
       cwd: ".",
       env: { ...process.env, PORT: "3000", BACKEND_URL: "http://localhost:5000" },
       shell: true,
-      stdio: "ignore"
+      stdio: "inherit"
     });
 
     let backendReady = false;
     let frontendReady = false;
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 60; i++) {
       if (!backendReady) backendReady = await checkHealth("http://localhost:5000/api/health");
       if (!frontendReady) frontendReady = await checkHealth("http://localhost:3000/");
       if (backendReady && frontendReady) break;

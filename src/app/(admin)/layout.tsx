@@ -95,7 +95,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <ListItem disablePadding>
           <ListItemButton component={Link} href="/admin/users">
             <ListItemIcon><PeopleIcon /></ListItemIcon>
-            <ListItemText primary="المهندسين" />
+            <ListItemText primary="المستخدمين" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>

@@ -22,7 +22,7 @@ export default function NewVisitPage() {
         method: 'POST',
         body: JSON.stringify(data),
       });
-      setMessage('تم تسجيل الزيارة بنجاح');
+      setMessage('تمت إضافة الزيارة بنجاح');
       setTimeout(() => router.push('/engineer/visits'), 1500);
     } catch (err: any) {
       if (err.errors && Array.isArray(err.errors)) {

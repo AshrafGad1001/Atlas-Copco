@@ -49,13 +49,22 @@ export default function EngineerVisitsPage() {
         <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold' }}>
           سجل الزيارات
         </Typography>
-        <Button 
-          variant="outlined" 
-          startIcon={<DownloadIcon />}
-          onClick={handleExport} data-testid="export-csv-btn"
-        >
-          تصدير Excel
-        </Button>
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <Button 
+            component={Link}
+            href="/engineer/visits/new"
+            variant="contained"
+          >
+            إضافة زيارة
+          </Button>
+          <Button 
+            variant="outlined" 
+            startIcon={<DownloadIcon />}
+            onClick={handleExport} data-testid="export-csv-btn"
+          >
+            تصدير Excel
+          </Button>
+        </Box>
       </Box>
       <Card>
         <CardContent>
@@ -77,7 +86,7 @@ export default function EngineerVisitsPage() {
                     <TableCell>
                       {!row.canEdit && <span title="لا يمكن التعديل (انقضت 24 ساعة)" style={{ marginRight: 8, fontSize: "12px" }}>&times;</span>}
                       {formatDate(row.visitDate)}</TableCell>
-                    <TableCell>{row.company?.name}</TableCell>
+                    <TableCell>{row.company?.nameAr || row.company?.nameEn || row.company?.name || 'غير محدد'}</TableCell>
                     <TableCell>{row.company?.region?.name || 'غير محدد'}</TableCell>
                     <TableCell>
                       {(!row.attendees || row.attendees.length === 0) ? '—' : 

@@ -33,7 +33,7 @@ export default function DashboardOverview() {
         { title: "شركات بدون زيارة 30 يوم", value: data.staleCompanies30, color: "error.main" }
       ].map((item, i) => (
         <Grid size={{xs: 6, sm: 4, md: 2}} key={i}>
-          <Card sx={{ height: "100%" }} data-testid="dashboard-overview-card">
+          <Card sx={{ height: "100%" }} data-testid="admin-stat-card">
             <CardContent sx={{ textAlign: "center", p: 2 }}>
               <Typography variant="caption" color="text.secondary" component="div" sx={{ mb: 1, minHeight: 32 }}>{item.title}</Typography>
               <Typography variant="h5" sx={{ color: item.color, fontWeight: "bold" }}>{item.value}</Typography>

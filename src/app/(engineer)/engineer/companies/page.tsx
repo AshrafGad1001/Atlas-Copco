@@ -56,7 +56,7 @@ export default function EngineerCompaniesPage() {
           الشركات
         </Typography>
         <Button variant="contained" onClick={handleAdd} data-testid="add-company-btn">
-          إضافة شركة
+          {user?.username?.toLowerCase() === "visiteng" ? "إضافة" : "إضافة شركة"}
         </Button>
       </div>
       

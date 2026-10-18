@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { Typography, Card, CardContent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField, Checkbox, Dialog, DialogTitle, DialogContent, DialogActions, MenuItem, Pagination, Select } from "@mui/material";
+import { Typography, Card, CardContent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField, Checkbox, Dialog, DialogTitle, DialogContent, DialogActions, MenuItem, Pagination, Select, Alert } from "@mui/material";
 import { fetchApi } from "@/lib/api";
 import { useAuth } from "@/components/common/AuthProvider";
 import CompanyFormModal from "@/components/companies/CompanyFormModal";
@@ -26,6 +26,7 @@ export default function AdminCompaniesPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [mergeModalOpen, setMergeModalOpen] = useState(false);
   const [targetMergeId, setTargetMergeId] = useState("");
+  const [mergeSuccess, setMergeSuccess] = useState("");
 
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [importFile, setImportFile] = useState<File | null>(null);
@@ -88,6 +89,7 @@ export default function AdminCompaniesPage() {
         method: "POST",
         body: JSON.stringify({ sourceIds: sources })
       });
+      setMergeSuccess("تم دمج الشركة");
       setMergeModalOpen(false);
       setSelectedIds([]);
       setTargetMergeId("");
@@ -167,6 +169,7 @@ export default function AdminCompaniesPage() {
           </Button>
         </div>
       )}
+      {mergeSuccess && <Alert severity="success" sx={{ mb: 2 }}>{mergeSuccess}</Alert>}
 
       <Card>
         <CardContent>
@@ -192,6 +195,7 @@ export default function AdminCompaniesPage() {
                     <TableCell>{row.industry || "-"}</TableCell>
                     <TableCell>
                       <Button size="small" onClick={() => handleEdit(row)}>تعديل</Button>
+                      <Button size="small" data-testid="merge-company-btn" onClick={() => { setSelectedIds([row._id]); setMergeModalOpen(true); }}>دمج</Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -216,21 +220,34 @@ export default function AdminCompaniesPage() {
 
       <Dialog open={mergeModalOpen} onClose={() => setMergeModalOpen(false)} maxWidth="sm" fullWidth>
         <DialogTitle>دمج الشركات</DialogTitle>
-        <DialogContent dividers>
-          <Typography gutterBottom>اختر الشركة الأساسية:</Typography>
-          <Select fullWidth value={targetMergeId} onChange={(e) => setTargetMergeId(e.target.value)}>
-            {selectedIds.map(id => {
-              const comp = companies.find(c => c._id === id);
-              return <MenuItem key={id} value={id}>{comp?.nameAr || comp?.nameEn}</MenuItem>
-            })}
-          </Select>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setMergeModalOpen(false)}>إلغاء</Button>
-          <Button onClick={handleMerge} variant="contained" color="warning" disabled={!targetMergeId} data-testid="confirm-merge-btn">
-            دمج
-          </Button>
-        </DialogActions>
+        <form onSubmit={(e) => { e.preventDefault(); handleMerge(); }}>
+          <DialogContent dividers>
+            <Typography gutterBottom>اختر الشركة الأساسية:</Typography>
+            <select 
+              name="targetCompany" 
+              value={targetMergeId} 
+              onChange={(e) => setTargetMergeId(e.target.value)} 
+              style={{ width: '100%', padding: 8, marginBottom: 12, borderRadius: 4, borderColor: '#ccc' }}
+            >
+              <option value="">اختر الشركة الأساسية</option>
+              {companies.map(c => (
+                <option key={c._id} value={c._id}>{c.nameAr || c.nameEn}</option>
+              ))}
+            </select>
+            <Select fullWidth value={targetMergeId} onChange={(e) => setTargetMergeId(e.target.value)}>
+              {selectedIds.map(id => {
+                const comp = companies.find(c => c._id === id);
+                return <MenuItem key={id} value={id}>{comp?.nameAr || comp?.nameEn}</MenuItem>
+              })}
+            </Select>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setMergeModalOpen(false)}>إلغاء</Button>
+            <Button type="submit" variant="contained" color="warning" disabled={!targetMergeId} data-testid="confirm-merge-btn">
+              دمج
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
 
       <Dialog open={importModalOpen} onClose={() => { setImportModalOpen(false); setImportPreview(null); setImportFile(null); }}>
